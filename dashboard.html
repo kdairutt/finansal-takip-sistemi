@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Para Uzmanı - Ana Ekran</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f5f7fb;
+            color: #222;
+        }
+
+        /* Üst menü */
+        .top-bar {
+            width: 100%;
+            background-color: #1e2a3b;
+            color: #fff;
+            padding: 12px 24px;
+        }
+
+        .top-bar-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .logo a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .logo a:visited,
+        .logo a:active,
+        .logo a:hover {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .top-menu {
+            list-style-type: none;
+            white-space: nowrap;
+        }
+
+        .top-menu li {
+            display: inline-block;
+            margin-left: 10px;
+        }
+
+        .top-menu a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 13px;
+            padding: 6px 10px;
+            border-radius: 4px;
+            border: 1px solid transparent;
+        }
+
+        /* Aktif sayfa */
+        .top-menu a.active {
+            border-color: #fff;
+            background-color: #ffffff22;
+        }
+
+        /* Üzerine gelince */
+        .top-menu a:hover {
+            border-color: #fff;
+        }
+
+        /* Tahmini gelir-gider (pasif link) */
+        .top-menu a.disabled-link {
+            opacity: 0.6;
+            cursor: default;
+            border-style: dashed;
+        }
+
+        .top-menu a.disabled-link:hover {
+            border-color: transparent;
+        }
+
+        /* Çıkış Yap butonu */
+        .top-menu a.logout-btn {
+            background-color: #c62828;
+            border-color: #b71c1c;
+            color: #fff;
+        }
+
+        .top-menu a.logout-btn:hover {
+            background-color: #d32f2f;
+            border-color: #ef9a9a;
+        }
+
+        /* Mobil üst menü */
+        @media (max-width: 768px) {
+            .top-bar-inner {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .top-menu li {
+                margin-left: 0;
+                margin-right: 8px;
+            }
+        }
+
+        /* Ana içerik */
+        .container {
+            max-width: 1100px;
+            margin: 24px auto 32px auto;
+            padding: 0 16px;
+        }
+
+        .dashboard-header {
+            margin-bottom: 20px;
+        }
+
+        .dashboard-header h1 {
+            font-size: 26px;
+            margin-bottom: 6px;
+        }
+
+        .dashboard-header p {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #444;
+        }
+
+        /* Kartlar */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 18px 16px 20px 16px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+            border: 1px solid #e0e0e0;
+            min-height: 120px;
+        }
+
+        .card-title {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card-value {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .card-extra {
+            font-size: 12px;
+            color: #777;
+            line-height: 1.4;
+        }
+
+        .card-extra ul {
+            margin-top: 4px;
+            padding-left: 16px;
+        }
+
+        .card-extra li {
+            margin-bottom: 2px;
+        }
+
+        .card-highlight {
+            color: #1e88e5;
+        }
+
+        .card-negative {
+            color: #e53935;
+        }
+
+        @media (max-width: 900px) {
+            .card-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Üst Menü (giriş sonrası) -->
+    <div class="top-bar">
+        <div class="top-bar-inner">
+            <div class="logo">
+                <a href="dashboard.html">Para Uzmanı</a>
+            </div>
+
+            <ul class="top-menu">
+                <li><a href="dashboard.html" class="active">Ana Ekran</a></li>
+                <li><a href="profil.html">Profil</a></li>
+                <li><a href="varliklar.html">Varlıklarım</a></li>
+                <li><a href="borclar.html">Borçlarım</a></li>
+                <li><a href="gelirler.html">Gelirlerim</a></li>
+                <li><a href="giderler.html">Giderlerim</a></li>
+                <li><a href="faiz.html">Faiz Hesapla</a></li>
+                <li><a href="doviz.html">Döviz &amp; Kıymetli Maden</a></li>
+                <li><a href="#" class="disabled-link">Tahmini Gelir–Gider</a></li>
+                <li><a href="index.html" class="logout-btn" onclick="cikisYap()">Çıkış Yap</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Ana İçerik -->
+    <div class="container">
+
+        <div class="dashboard-header">
+            <h1>Hoş Geldin, Kullanıcı!</h1>
+            <p>
+                Aşağıda genel finansal durumunun özeti yer alıyor. Detaylı kayıt ekleme ve düzenleme için
+                üst menüdeki ilgili sayfaları kullanabilirsin.
+            </p>
+        </div>
+
+        <!-- Özet kartlar: varlık / borç / net -->
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-title">Toplam Varlıklar</div>
+                <div class="card-value" id="card-total-assets">0 TL</div>
+                <div class="card-extra">
+                    Varlıklarım sayfasında eklediğin:
+                    <ul>
+                        <li>Banka hesapları ve nakit</li>
+                        <li>Yatırım hesapları</li>
+                        <li>Diğer finansal varlıklar</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">Toplam Borçlar</div>
+                <div class="card-value" id="card-total-debts">0 TL</div>
+                <div class="card-extra">
+                    Borçlarım sayfasında eklediğin:
+                    <ul>
+                        <li>Kredi ve kredi kartı borçları</li>
+                        <li>Taksitli alışverişler</li>
+                        <li>Diğer borç ve yükümlülükler</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">Net Varlık</div>
+                <div class="card-value card-highlight" id="card-net-worth">0 TL</div>
+                <div class="card-extra">
+                    <strong>Hesaplama:</strong> Toplam varlıklar - toplam borçlar.  
+                    Bu değer, genel finansal gücünü özetler.
+                </div>
+            </div>
+        </div>
+
+        <!-- Özet kartlar: aylık gelir / gider / net -->
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-title">Aylık Gelir</div>
+                <div class="card-value" id="card-monthly-income">0 TL</div>
+                <div class="card-extra">
+                    Gelirlerim sayfasında yer alan:
+                    <ul>
+                        <li>Maaş ve düzenli ödemeler</li>
+                        <li>Burs ve ek gelirler</li>
+                        <li>Diğer aylık kazançlar</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">Aylık Gider</div>
+                <div class="card-value" id="card-monthly-expense">0 TL</div>
+                <div class="card-extra">
+                    Giderlerim sayfasında yer alan:
+                    <ul>
+                        <li>Fatura ve kira ödemeleri</li>
+                        <li>Market, ulaşım ve günlük harcamalar</li>
+                        <li>Eğlence ve diğer giderler</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">Aylık Net Durum</div>
+                <div class="card-value card-highlight" id="card-monthly-net">0 TL</div>
+                <div class="card-extra">
+                    <strong>Hesaplama:</strong> Aylık gelir - aylık gider.  
+                    Pozitif olması, her ay kenara para ayırabildiğin anlamına gelir.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Basit JavaScript -->
+    <script>
+        // Çıkış Yap
+        function cikisYap() {
+            var cevap = confirm("Çıkış yapmak istediğinize emin misiniz?");
+            if (cevap == true) {
+                window.location = "index.html";
+            }
+        }
+
+        // Sayıyı "X.XXX TL" formatında göstermek için yardımcı fonksiyon
+        function formatTL(value) {
+            if (isNaN(value)) {
+                return "0 TL";
+            }
+            return value.toLocaleString("tr-TR") + " TL";
+        }
+
+        // Dashboard verilerini localStorage'tan yükle
+        function dashboardVerileriniYukle() {
+            // Varlık / borç özetleri
+            var assetsText = localStorage.getItem("toplamVarlik");
+            var debtsText  = localStorage.getItem("toplamBorc");
+
+            var assets = Number(assetsText);
+            var debts  = Number(debtsText);
+
+            var assetsElement = document.getElementById("card-total-assets");
+            var debtsElement  = document.getElementById("card-total-debts");
+            var netElement    = document.getElementById("card-net-worth");
+
+            if (!isNaN(assets)) {
+                assetsElement.textContent = formatTL(assets);
+            }
+            if (!isNaN(debts)) {
+                debtsElement.textContent = formatTL(debts);
+            }
+
+            if (!isNaN(assets) && !isNaN(debts)) {
+                var net = assets - debts;
+                netElement.textContent = formatTL(net);
+
+                if (net < 0) {
+                    netElement.classList.add("card-negative");
+                    netElement.classList.remove("card-highlight");
+                } else {
+                    netElement.classList.add("card-highlight");
+                    netElement.classList.remove("card-negative");
+                }
+            }
+
+            // Aylık gelir / gider özetleri (Gelirlerim / Giderlerim sayfasından set edilecek)
+            var aylikGelirText = localStorage.getItem("aylikGelir");
+            var aylikGiderText = localStorage.getItem("aylikGider");
+
+            var aylikGelir = Number(aylikGelirText);
+            var aylikGider = Number(aylikGiderText);
+            var aylikNet   = aylikGelir - aylikGider;
+
+            var incomeElement  = document.getElementById("card-monthly-income");
+            var expenseElement = document.getElementById("card-monthly-expense");
+            var netMonthlyEl   = document.getElementById("card-monthly-net");
+
+            if (!isNaN(aylikGelir)) {
+                incomeElement.textContent = formatTL(aylikGelir);
+            }
+            if (!isNaN(aylikGider)) {
+                expenseElement.textContent = formatTL(aylikGider);
+            }
+            if (!isNaN(aylikGelir) && !isNaN(aylikGider)) {
+                netMonthlyEl.textContent = formatTL(aylikNet);
+
+                if (aylikNet < 0) {
+                    netMonthlyEl.classList.add("card-negative");
+                    netMonthlyEl.classList.remove("card-highlight");
+                } else {
+                    netMonthlyEl.classList.add("card-highlight");
+                    netMonthlyEl.classList.remove("card-negative");
+                }
+            }
+        }
+
+        // Sayfa açıldığında verileri yükle
+        window.onload = function () {
+            dashboardVerileriniYukle();
+        };
+    </script>
+
+</body>
+</html>

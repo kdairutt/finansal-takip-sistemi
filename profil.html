@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Para Uzmanı - Profil</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f5f7fb;
+            color: #222;
+        }
+
+        /* Üst menü */
+        .top-bar {
+            width: 100%;
+            background-color: #1e2a3b;
+            color: #fff;
+            padding: 12px 24px;
+        }
+
+        .top-bar-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .logo a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .logo a:visited,
+        .logo a:active,
+        .logo a:hover {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .top-menu {
+            list-style-type: none;
+            white-space: nowrap; /* Dashboard ile birebir aynı */
+        }
+
+        .top-menu li {
+            display: inline-block;
+            margin-left: 10px;
+        }
+
+        .top-menu a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 13px;
+            padding: 6px 10px;
+            border-radius: 4px;
+            border: 1px solid transparent;
+        }
+
+        /* Aktif sayfa */
+        .top-menu a.active {
+            border-color: #fff;
+            background-color: #ffffff22;
+        }
+
+        /* Üzerine gelince */
+        .top-menu a:hover {
+            border-color: #fff;
+        }
+
+        /* Tahmini gelir-gider (pasif link) */
+        .top-menu a.disabled-link {
+            opacity: 0.6;
+            cursor: default;
+            border-style: dashed;
+        }
+
+        .top-menu a.disabled-link:hover {
+            border-color: transparent;
+        }
+
+        /* Çıkış Yap butonu */
+        .top-menu a.logout-btn {
+            background-color: #c62828;
+            border-color: #b71c1c;
+            color: #fff;
+        }
+
+        .top-menu a.logout-btn:hover {
+            background-color: #d32f2f;
+            border-color: #ef9a9a;
+        }
+
+        /* Mobil uyum */
+        @media (max-width: 768px) {
+            .top-bar-inner {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .top-menu li {
+                margin-left: 0;
+                margin-right: 8px;
+            }
+        }
+
+        /* Ana içerik */
+        .container {
+            max-width: 900px;
+            margin: 24px auto 32px auto;
+            padding: 0 16px;
+        }
+
+        .profile-header {
+            margin-bottom: 16px;
+        }
+
+        .profile-header h1 {
+            font-size: 24px;
+            margin-bottom: 6px;
+        }
+
+        .profile-header p {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.5;
+        }
+
+        .profile-card,
+        .profile-edit-card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 18px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+            border: 1px solid #e0e0e0;
+            margin-bottom: 18px;
+        }
+
+        .profile-row {
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+
+        .profile-label {
+            font-weight: bold;
+            margin-right: 6px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 4px;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 4px;
+            border: 1px solid #cfd8dc;
+            font-size: 14px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #1e88e5;
+            box-shadow: 0 0 0 2px #bbdefb;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 9px 16px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .btn-primary {
+            background-color: #1e88e5;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: #1669b5;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Üst Menü (giriş sonrası) -->
+    <div class="top-bar">
+        <div class="top-bar-inner">
+            <div class="logo">
+                <a href="dashboard.html">Para Uzmanı</a>
+            </div>
+
+            <ul class="top-menu">
+                <li><a href="dashboard.html">Ana Ekran</a></li>
+                <li><a href="profil.html" class="active">Profil</a></li>
+                <li><a href="varliklar.html">Varlıklarım</a></li>
+                <li><a href="borclar.html">Borçlarım</a></li>
+                <li><a href="gelirler.html">Gelirlerim</a></li>
+                <li><a href="giderler.html">Giderlerim</a></li>
+                <li><a href="faiz.html">Faiz Hesapla</a></li>
+                <li><a href="doviz.html">Döviz &amp; Kıymetli Maden</a></li>
+                <li><a href="#" class="disabled-link">Tahmini Gelir–Gider</a></li>
+                <li><a href="index.html" class="logout-btn" onclick="cikisYap()">Çıkış Yap</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Ana İçerik -->
+    <div class="container">
+
+        <div class="profile-header">
+            <h1>Profil Bilgilerin</h1>
+            <p>
+                Bu sayfada Para Uzmanı hesabına ait temel bilgilerini görebilir ve istersen 
+                hemen aşağıdan güncelleyebilirsin. Değişiklikler yalnızca bu sayfada örnek amaçlı gösterilir.
+            </p>
+        </div>
+
+        <!-- Profil görüntüleme kartı -->
+        <div class="profile-card">
+            <div class="profile-row">
+                <span class="profile-label">Ad Soyad:</span>
+                <span id="p-name">Kullanıcı Adı</span>
+            </div>
+            <div class="profile-row">
+                <span class="profile-label">E-posta:</span>
+                <span id="p-email">ornek@mail.com</span>
+            </div>
+            <div class="profile-row">
+                <span class="profile-label">Kullanıcı Adı:</span>
+                <span id="p-username">kullanici123</span>
+            </div>
+        </div>
+
+        <!-- Profil düzenleme kartı -->
+        <div class="profile-edit-card">
+            <h2>Bilgileri Düzenle</h2>
+
+            <div class="form-group">
+                <label for="input-name">Ad Soyad</label>
+                <input type="text" id="input-name" placeholder="Yeni ad soyad">
+            </div>
+
+            <div class="form-group">
+                <label for="input-email">E-posta</label>
+                <input type="email" id="input-email" placeholder="Yeni e-posta">
+            </div>
+
+            <div class="form-group">
+                <label for="input-username">Kullanıcı Adı</label>
+                <input type="text" id="input-username" placeholder="Yeni kullanıcı adı">
+            </div>
+
+            <button class="btn btn-primary" onclick="profilGuncelle()">Kaydet</button>
+        </div>
+
+    </div>
+
+    <!-- Basit JS -->
+    <script>
+        // Çıkış yap fonksiyonu (dashboard ile aynı mantık)
+        function cikisYap() {
+            var cevap = confirm("Çıkış yapmak istediğinize emin misiniz?");
+            if (cevap == true) {
+                window.location = "index.html";
+            }
+        }
+
+        // Profil bilgilerini güncelle (sadece ekranda)
+        function profilGuncelle() {
+            var yeniAd = document.getElementById("input-name").value;
+            var yeniEmail = document.getElementById("input-email").value;
+            var yeniKullanici = document.getElementById("input-username").value;
+
+            if (yeniAd != "") {
+                document.getElementById("p-name").textContent = yeniAd;
+            }
+            if (yeniEmail != "") {
+                document.getElementById("p-email").textContent = yeniEmail;
+            }
+            if (yeniKullanici != "") {
+                document.getElementById("p-username").textContent = yeniKullanici;
+            }
+
+            alert("Profil başarıyla güncellendi!");
+        }
+    </script>
+
+</body>
+</html>

@@ -1,4 +1,526 @@
 <!DOCTYPE html>
-<html>
-    
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Para Uzmanı - Kişisel Finansal Yönetim Uygulamanız</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f5f7fb;
+            color: #222;
+        }
+
+        /* Üst menü */
+        .top-bar {
+            width: 100%;
+            background-color: #1e2a3b;
+            color: #fff;
+            padding: 12px 24px;
+        }
+
+        .top-bar-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .logo a {
+            color: #fff;          
+            text-decoration: none;   
+        }
+
+        .logo a:visited,
+        .logo a:active,
+        .logo a:hover {
+            color: #fff;             
+            text-decoration: none; 
+        }
+
+        .top-menu {
+            list-style-type: none;
+        }
+
+        .top-menu li {
+            display: inline-block;
+            margin-left: 16px;
+        }
+
+        .top-menu a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 14px;
+            padding: 6px 10px;
+            border-radius: 4px;
+            border: 1px solid transparent;
+        }
+
+        .top-menu a:hover {
+            border-color: #fff;
+        }
+
+        /* Ana içerik */
+        .container {
+            max-width: 1100px;
+            margin: 32px auto;
+            padding: 0 16px;
+        }
+
+        .hero {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            margin-bottom: 24px;
+        }
+
+        .hero-title {
+            font-size: 26px;
+            margin-bottom: 12px;
+        }
+
+        .hero-subtitle {
+            font-size: 15px;
+            margin-bottom: 18px;
+            line-height: 1.5;
+        }
+
+        .hero-buttons {
+            margin-top: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 18px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .btn-primary {
+            background-color: #1e88e5;
+            color: #fff;
+        }
+
+        .btn-secondary {
+            background-color: #ffffff;
+            color: #1e88e5;
+            border: 1px solid #1e88e5;
+        }
+
+        .btn-primary:hover {
+            background-color: #1669b5;
+        }
+
+        .btn-secondary:hover {
+            background-color: #e3f2fd;
+        }
+
+        /* Özellikler bölümü */
+        .features-section {
+            margin-top: 16px;
+            margin-bottom: 24px;
+        }
+
+        .features-header h2 {
+            font-size: 20px;
+            margin-bottom: 6px;
+            color: #1e2a3b;
+        }
+
+        .features-header p {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #333;
+            max-width: 700px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 18px;
+        }
+
+        .feature-card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 16px 14px 18px 14px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+            border: 1px solid #e0e0e0;
+            transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.10);
+            border-color: #c5e1ff;
+        }
+
+        .feature-icon {
+            font-size: 26px;
+            margin-bottom: 8px;
+        }
+
+        .feature-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 6px;
+            color: #1e2a3b;
+        }
+
+        .feature-text {
+            font-size: 13px;
+            line-height: 1.5;
+            color: #444;
+            margin-bottom: 10px;
+        }
+
+        .feature-badge {
+            display: inline-block;
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 999px;
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            font-weight: bold;
+        }
+
+        /* Mobil uyum */
+        @media (max-width: 900px) {
+            .features-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Alt açıklama */
+        .info-section {
+            background: linear-gradient(135deg, #e3f2fd, #f5f7fb);
+            border-radius: 10px;
+            padding: 20px 18px 22px 18px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            margin-bottom: 24px;
+            border: 1px solid #d0e2ff;
+        }
+
+        .info-header h2 {
+            font-size: 20px;
+            margin-bottom: 8px;
+            color: #1e2a3b;
+        }
+
+        .info-header p {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 18px;
+        }
+
+        .info-card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 14px 14px 16px 14px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            border: 1px solid #e0e0e0;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.10);
+            border-color: #bbdefb;
+        }
+
+        .info-icon {
+            font-size: 22px;
+            margin-bottom: 6px;
+        }
+
+        .info-card h3 {
+            margin-bottom: 6px;
+            font-size: 16px;
+            color: #1e2a3b;
+        }
+
+        .info-card p {
+            font-size: 13px;
+            line-height: 1.5;
+            color: #444;
+            margin-bottom: 8px;
+        }
+
+        .info-tag {
+            display: inline-block;
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 999px;
+            background-color: #e3f2fd;
+            color: #1e88e5;
+            font-weight: bold;
+        }
+
+        /* Henüz aktif olmayan kart için ufak stil farkı */
+        .disabled-card {
+            opacity: 0.85;
+            border-style: dashed;
+        }
+
+        .disabled-card .info-tag {
+            background-color: #fff3e0;
+            color: #fb8c00;
+        }
+
+        /* Mobil uyum */
+        @media (max-width: 768px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: #777;
+            padding: 16px 0;
+            margin-top: 20px;
+        }
+
+        /* Mobil uyum */
+        @media (max-width: 768px) {
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .top-bar-inner {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .top-menu li {
+                margin-left: 0;
+                margin-right: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Üst Menü -->
+    <div class="top-bar">
+        <div class="top-bar-inner">
+            <div class="logo">
+                <a href="index.html">Para Uzmanı</a>
+            </div>
+
+            <ul class="top-menu">
+                <li><a href="giris.html">Giriş Yap</a></li>
+                <li><a href="kayit.html">Kayıt Ol</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Ana İçerik -->
+    <div class="container">
+
+        <!-- Hero / Giriş alanı -->
+        <div class="hero">
+            <h1 class="hero-title">Kişisel Finansını Tek Bir Yerden Yönet</h1>
+            <p class="hero-subtitle">
+                Para Uzmanı, gelir ve giderlerini takip etmeni, varlık ve borç durumunu görmeni,
+                faiz ve döviz hesaplamaları yapmanı sağlayan basit ve anlaşılır bir kişisel finans takip sistemidir.
+                Kayıt olup giriş yaptıktan sonra, kendi hesabına özel özet ekranını ve istatistiklerini görebilirsin.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="kayit.html" class="btn btn-primary">Hemen Kayıt Ol</a>
+                <a href="giris.html" class="btn btn-secondary">Zaten Üyeyim, Giriş Yap</a>
+            </div>
+        </div>
+
+        <!-- Özellik Kartları -->
+        <!-- Güncellenmiş Özellikler / Features Bölümü -->
+<div class="features-section">
+    <div class="features-header">
+        <h2>Para Uzmanı Neden Kullanışlı?</h2>
+        <p>
+            Uygulamayı kullanmaya başladıktan sonra, finansal verilerini hem kolayca kaydedebilir
+            hem de düzenli olarak analiz edebilirsin. Aşağıdaki temel özellikler, sistemi günlük
+            hayatta rahatça kullanabilmen için tasarlandı.
+        </p>
+    </div>
+
+    <div class="features-grid">
+
+        <div class="feature-card">
+            <div class="feature-icon">🧮</div>
+            <div class="feature-title">Kolay Kayıt &amp; Takip</div>
+            <p class="feature-text">
+                Gelir ve giderlerini birkaç adımda sisteme ekleyebilir, geçmiş kayıtlarına
+                hızlıca ulaşabilirsin. Basit ve sade arayüz, karmaşık tablolarla uğraşmanı engeller.
+            </p>
+            <span class="feature-badge">Pratik Kullanım</span>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <div class="feature-title">Tek Ekranda Finans Özeti</div>
+            <p class="feature-text">
+                Varlıklar, borçlar, gelirler ve giderler tek bir yerde toplanır. Böylece
+                genel finansal durumunu tek ekrandan görebilir, ihtiyaç duyduğunda hızlıca
+                detaylara inebilirsin.
+            </p>
+            <span class="feature-badge">Genel Bakış</span>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">🔒</div>
+            <div class="feature-title">Sadece Sana Özel</div>
+            <p class="feature-text">
+                Finansal verilerin tarayıcı üzerinde saklanır ve yalnızca senin erişebileceğin
+                şekilde görüntülenir. Amaç, ders projesi kapsamında basit ama kişisel bir
+                finans takip deneyimi sunmaktır.
+            </p>
+            <span class="feature-badge">Kişisel Alan</span>
+        </div>
+
+    </div>
+</div>
+
+        <!-- Site Amaç ve İşlevler -->
+        <!-- Güncellenmiş Site Amaç ve İşlevler Bölümü -->
+<div class="info-section">
+    <div class="info-header">
+        <h2>Para Uzmanı ile Finansını Adım Adım Yönet</h2>
+        <p>
+            Giriş yaptıktan sonra, aşağıdaki bölümler aracılığıyla hem mevcut durumunu görebilir
+            hem de geleceğe yönelik planlama yapabilirsin. Her kart, üst menüde yer alan bir sayfayı temsil eder.
+        </p>
+    </div>
+
+    <div class="info-grid">
+
+        <div class="info-card">
+            <div class="info-icon">👤</div>
+            <h3>Profil</h3>
+            <p>
+                Kişisel bilgilerini görüntüleyebilir ve güncelleyebilirsin. Hesabına bağlı ad,
+                e-posta gibi temel verilerin burada tutulur.
+            </p>
+            <span class="info-tag">Hesap Yönetimi</span>
+        </div>
+
+        <div class="info-card">
+            <div class="info-icon">💼</div>
+            <h3>Varlıklarım</h3>
+            <p>
+                Banka hesapların, nakit ve yatırım varlıklarını listeleyerek toplam finansal
+                gücünü tek ekranda görebilirsin.
+            </p>
+            <span class="info-tag">Finansal Durum</span>
+        </div>
+
+        <div class="info-card">
+            <div class="info-icon">📉</div>
+            <h3>Borçlarım</h3>
+            <p>
+                Kredi, kredi kartı ve diğer borçlarını ayrı ayrı kaydederek toplam borç
+                yükünü ve ödeme takibini düzenli biçimde yapabilirsin.
+            </p>
+            <span class="info-tag">Yükümlülükler</span>
+        </div>
+
+        <div class="info-card">
+            <div class="info-icon">💰</div>
+            <h3>Gelirlerim</h3>
+            <p>
+                Maaş, burs ve ek gelirlerini tanımlayarak aylık kazançlarının hangi
+                kaynaklardan geldiğini net olarak takip edebilirsin.
+            </p>
+            <span class="info-tag">Düzenli Kazanç</span>
+        </div>
+
+        <div class="info-card">
+            <div class="info-icon">🧾</div>
+            <h3>Giderlerim</h3>
+            <p>
+                Market, ulaşım, fatura ve eğlence gibi tüm harcamalarını kategorilere
+                ayırarak paranı nereye harcadığını detaylı biçimde görebilirsin.
+            </p>
+            <span class="info-tag">Harcama Analizi</span>
+        </div>
+
+        <div class="info-card">
+            <div class="info-icon">📈</div>
+            <h3>Faiz Hesapla</h3>
+            <p>
+                Basit faiz hesaplamaları yaparak anapara, faiz oranı ve vade ilişkisini
+                hızlıca görebilir, kararlarını buna göre şekillendirebilirsin.
+            </p>
+            <span class="info-tag">Hesaplama Aracı</span>
+        </div>
+
+        <div class="info-card">
+            <div class="info-icon">💱</div>
+            <h3>Döviz &amp; Kıymetli Maden</h3>
+            <p>
+                Döviz ve altın gibi varlıkların TL karşılığını hesaplayarak küçük çaplı
+                yatırım planlarını daha net görebilirsin.
+            </p>
+            <span class="info-tag">Kur &amp; Altın</span>
+        </div>
+
+        <div class="info-card disabled-card">
+            <div class="info-icon">🔍</div>
+            <h3>Tahmini Gelir – Gider</h3>
+            <p>
+                (Yakında) Geçmiş verilerini baz alarak gelecekteki olası gelir–gider
+                durumunu tahmin eden bir analiz bölümü planlanmaktadır.
+            </p>
+            <span class="info-tag">Geliştirme Aşamasında</span>
+        </div>
+
+    </div>
+</div>
+
+        <!-- Footer -->
+        <div class="footer">
+            Para Uzmanı &copy; 2025 - İnternet Bilgi Sistemleri Projesi
+        </div>
+
+    </div>
+
+</body>
 </html>
