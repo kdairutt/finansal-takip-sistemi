@@ -73,17 +73,6 @@ body {
     border-color: #fff;
 }
 
-/* Tahmini gelir-gider (pasif link) */
-.top-menu a.disabled-link {
-    opacity: 0.6;
-    cursor: default;
-    border-style: dashed;
-}
-
-.top-menu a.disabled-link:hover {
-    border-color: transparent;
-}
-
 /* Çıkış Yap butonu */
 .top-menu a.logout-btn {
     background-color: #c62828;
@@ -118,53 +107,25 @@ body {
 }
 
 .page-header {
-    margin-bottom: 16px;
+    margin-bottom: 18px;
 }
 
 .page-header h1 {
     font-size: 24px;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 }
 
 .page-header p {
     font-size: 14px;
     color: #444;
-    line-height: 1.5;
+    line-height: 1.6;
 }
 
-/* Özet kart */
-.summary-card {
-    background-color: #ffffff;
-    border-radius: 10px;
-    padding: 16px 16px 14px 16px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-    border: 1px solid #e0e0e0;
-    margin-bottom: 18px;
-}
-
-.summary-title {
-    font-size: 13px;
-    color: #666;
-    margin-bottom: 4px;
-}
-
-.summary-value {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 4px;
-    color: #e53935; /* gider olduğu için hafif kırmızı ton */
-}
-
-.summary-extra {
-    font-size: 12px;
-    color: #777;
-}
-
-/* Form ve tablo kartları */
+/* Kartlar */
 .card {
     background-color: #ffffff;
     border-radius: 10px;
-    padding: 16px;
+    padding: 16px 16px 18px 16px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.06);
     border: 1px solid #e0e0e0;
     margin-bottom: 18px;
@@ -182,8 +143,35 @@ body {
     color: #555;
 }
 
-.form-group {
+/* Özet liste */
+.summary-list {
+    list-style-type: none;
+    padding-left: 0;
     margin-bottom: 10px;
+}
+
+.summary-list li {
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.card-note {
+    font-size: 12px;
+    color: #777;
+}
+
+/* Form alanı */
+.inline-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.form-group {
+    min-width: 180px;
+    max-width: 220px;
 }
 
 .form-group label {
@@ -195,10 +183,10 @@ body {
 
 .form-group input {
     width: 100%;
-    padding: 8px 10px;
+    padding: 7px 9px;
     border-radius: 4px;
     border: 1px solid #cfd8dc;
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .form-group input:focus {
@@ -207,21 +195,7 @@ body {
     box-shadow: 0 0 0 2px #bbdefb;
 }
 
-.form-group select {
-    width: 100%;
-    padding: 8px 10px;
-    border-radius: 4px;
-    border: 1px solid #cfd8dc;
-    font-size: 14px;
-    background-color: #fff;
-}
-
-.form-group select:focus {
-    outline: none;
-    border-color: #1e88e5;
-    box-shadow: 0 0 0 2px #bbdefb;
-}
-
+/* Butonlar */
 .btn {
     display: inline-block;
     padding: 9px 16px;
@@ -241,38 +215,52 @@ body {
     background-color: #1669b5;
 }
 
-.btn-delete {
-    padding: 5px 10px;
-    font-size: 12px;
-    background-color: #e53935;
-    color: #fff;
-    border-radius: 4px;
-    border: none;
-    cursor: pointer;
-}
-
-.btn-delete:hover {
-    background-color: #c62828;
-}
-
-/* Tablo */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-    margin-top: 8px;
-}
-
-th, td {
-    border: 1px solid #e0e0e0;
-    padding: 8px;
-    text-align: left;
-}
-
-th {
+/* Sonuç kutusu (büyütülmüş) */
+.result-box {
+    margin-top: 12px;
+    padding: 14px 16px;
+    border-radius: 8px;
     background-color: #f1f4fb;
+    border: 1px solid #cfd8dc;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #263238;
 }
 
-tbody tr:nth-child(even) {
-    background-color: #fafafa;
+/* Genel durum barı */
+.durum-bar {
+    width: 100%;
+    height: 18px;
+    border-radius: 999px;
+    background-color: #e0e0e0;
+    overflow: hidden;
+    margin: 10px 0 6px 0;
+}
+
+.durum-bar-inner {
+    height: 100%;
+    width: 0%;
+    border-radius: 999px;
+    background-color: #b0bec5;
+    transition: width 0.25s ease, background-color 0.25s ease;
+}
+
+.durum-bar-text {
+    font-size: 13px;
+    color: #555;
+}
+
+/* Küçük ekranlar */
+@media (max-width: 600px) {
+    .container {
+        padding: 0 12px;
+    }
+
+    .page-header h1 {
+        font-size: 22px;
+    }
+
+    .card {
+        padding: 14px;
+    }
 }

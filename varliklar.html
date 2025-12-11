@@ -24,8 +24,8 @@
                 <li><a href="giderler.html">Giderlerim</a></li>
                 <li><a href="faiz.html">Faiz Hesapla</a></li>
                 <li><a href="doviz.html">Döviz &amp; Kıymetli Maden</a></li>
-                <li><a href="#" class="disabled-link">Tahmini Gelir–Gider</a></li>
-                <li><a href="index.html" class="logout-btn" onclick="cikisYap()">Çıkış Yap</a></li>
+                <li><a href="tahmini.html">Tahmini Gelir–Gider</a></li>
+                <li><a href="index.html" class="logout-btn" onclick="cikisYap(event)">Çıkış Yap</a></li>
             </ul>
         </div>
     </div>
@@ -95,9 +95,6 @@
                     </tr>
                 </thead>
                 <tbody id="varlik-tablo-govde">
-                    <!-- Başlangıçta örnek 1-2 satır -->
-                    <tr>
-                    </tr>
                 </tbody>
             </table>
         </div>
@@ -105,119 +102,9 @@
     </div>
 
     <!-- Basit JS -->
-    <script>
-        // Çıkış yap fonksiyonu
-        function cikisYap() {
-            var cevap = confirm("Çıkış yapmak istediğinize emin misiniz?");
-            if (cevap == true) {
-                window.location = "index.html";
-            }
-        }
-
-        // Sayfadaki mevcut satırlara göre toplam varlığı hesapla
-        function toplamVarligiHesapla() {
-            var hucreler = document.getElementsByClassName("tutar-hucre");
-            var toplam = 0;
-
-            for (var i = 0; i < hucreler.length; i++) {
-                var deger = Number(hucreler[i].textContent);
-                if (!isNaN(deger)) {
-                    toplam = toplam + deger;
-                }
-            }
-
-            document.getElementById("toplam-varlik").textContent = toplam + " TL";
-            localStorage.setItem("toplamVarlik", toplam);
-        }
-
-        // Yeni varlık ekle
-        function varlikEkle() {
-            var ad = document.getElementById("varlik-adi").value;
-            var tur = document.getElementById("varlik-turu").value;
-            var tutar = document.getElementById("varlik-tutar").value;
-            var not = document.getElementById("varlik-not").value;
-
-            if (ad == "" || tur == "" || tutar == "") {
-                alert("Lütfen varlık adı, türü ve tutar alanlarını doldur.");
-                return;
-            }
-
-            var tabloGovde = document.getElementById("varlik-tablo-govde");
-
-            // Yeni satır oluştur
-            var yeniSatir = document.createElement("tr");
-
-            var hucreAd = document.createElement("td");
-            hucreAd.textContent = ad;
-
-            var hucreTur = document.createElement("td");
-            hucreTur.textContent = tur;
-
-            var hucreTutar = document.createElement("td");
-            hucreTutar.textContent = tutar;
-            hucreTutar.className = "tutar-hucre";
-
-            var hucreNot = document.createElement("td");
-            hucreNot.textContent = not;
-
-            var hucreIslem = document.createElement("td");
-            var silButonu = document.createElement("button");
-            silButonu.textContent = "Sil";
-            silButonu.className = "btn-delete";
-            silButonu.setAttribute("onclick", "varlikSil(this)");
-            hucreIslem.appendChild(silButonu);
-
-            // Satıra hücreleri ekle
-            yeniSatir.appendChild(hucreAd);
-            yeniSatir.appendChild(hucreTur);
-            yeniSatir.appendChild(hucreTutar);
-            yeniSatir.appendChild(hucreNot);
-            yeniSatir.appendChild(hucreIslem);
-
-            // Tabloya satırı ekle
-            tabloGovde.appendChild(yeniSatir);
-
-            // Toplam varlık değerini güncelle
-            toplamVarligiHesapla();
-
-            // Formu temizle
-            document.getElementById("varlik-adi").value = "";
-            document.getElementById("varlik-turu").value = "";
-            document.getElementById("varlik-tutar").value = "";
-            document.getElementById("varlik-not").value = "";
-        }
-
-        // Varlık sil
-        function varlikSil(buton) {
-            var cevap = confirm("Bu varlığı silmek istediğine emin misin?");
-            if (cevap == false) {
-                return;
-            }
-
-            // Butonun bulunduğu satırı bul ve sil
-            var satir = buton.parentNode.parentNode;
-            satir.parentNode.removeChild(satir);
-
-            // Toplam varlığı tekrar hesapla
-        }
-
-        // Sayfa ilk yüklendiğinde localStorage'daki değeri sadece göster
-        function toplamVarligiGoster() {
-            var kayitliToplam = localStorage.getItem("toplamVarlik");
-
-            if (kayitliToplam !== null) {
-                document.getElementById("toplam-varlik").textContent = kayitliToplam + " TL";
-            } else {
-                document.getElementById("toplam-varlik").textContent = "0 TL";
-            }
-        }
-
-        // Sayfa yüklenince sadece göster, hesaplama yapıp sıfırlama
-        window.onload = function () {
-            toplamVarligiGoster();
-        };
+    <script src="js/varliklar.js">
 
     </script>
 
-</body>
+    </body>
 </html>

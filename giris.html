@@ -12,7 +12,7 @@
     <div class="top-bar">
         <div class="top-bar-inner">
             <div class="logo">
-                <a href="index.html">Para Uzmanı</a>
+                <a href="index.html">Para Uzmanı ®</a>
             </div>
 
             <ul class="top-menu">
@@ -37,7 +37,7 @@
 
             <!-- Sol tarafta bilgilendirici kart -->
             <div class="form-info-card">
-                <h2>Tekrar Hoş Geldin</h2>
+                <h2>Tekrar Hoş Geldin!</h2>
                 <p>
                     Giriş yaptıktan sonra, kişisel finans özet ekranına ulaşarak gelir-gider dengeni,
                     varlıklarını ve borçlarını tek bakışta görebilirsin.
@@ -46,17 +46,18 @@
                     <li>Son eklediğin gelir ve gider kayıtlarını incele.</li>
                     <li>Varlık ve borç durumunu güncelle.</li>
                     <li>Faiz ve döviz hesaplamalarını yeniden yap.</li>
+                    <li>Gelecekteki tahmini harcamalarını görüntüle.</li>
                 </ul>
                 <p style="margin-top:10px;">
-                    Şifreni unuttuysan, yeni bir hesap oluşturmak için kayıt ol sayfasını kullanabilirsin.
+                    Şifreni unuttuysan, yeni bir hesap oluşturmak için Kayıt Ol sayfasını kullanabilirsin.
                 </p>
             </div>
 
             <!-- Sağ tarafta giriş formu -->
             <div class="form-card">
-                <h2>Giriş Formu</h2>
+                <h2>Giriş Yap</h2>
 
-                <form action="#" method="post">
+                <form id="login-form" action="#" method="post">
                     <div class="form-group">
                         <label for="login-id">Kullanıcı Adı veya E-posta <span class="required">*</span></label>
                         <input type="text" id="login-id" name="login-id" required>
@@ -73,24 +74,6 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary">Giriş Yap</button>
-                    <script>
-                        document.querySelector("form").addEventListener("submit", function(e) {
-                            e.preventDefault(); // sayfa yenilenmesini engelle
-
-                            var kullaniciAdi = document.getElementById("login-id").value.trim();
-
-                            if (kullaniciAdi === "") {
-                                alert("Lütfen kullanıcı adınızı girin.");
-                                return;
-                            }
-
-                            // Kullanıcı adını kaydediyoruz
-                            localStorage.setItem("kullaniciAdi", kullaniciAdi);
-
-                            // Dashboard'a yönlendir
-                            window.location.href = "dashboard.html";
-                        });
-                    </script>
                     
                     <div class="form-footer">
                         Henüz bir hesabın yok mu?
@@ -102,6 +85,10 @@
         </div>
 
     </div>
+
+    <script src="js/giris.js">
+
+    </script>
 
 </body>
 </html>

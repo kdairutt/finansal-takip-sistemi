@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Para Uzmanı - Profil</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/profil.css">
+    <link rel="stylesheet" href="css/profil.css">
 </head>
 <body>
 
@@ -24,8 +24,8 @@
                 <li><a href="giderler.html">Giderlerim</a></li>
                 <li><a href="faiz.html">Faiz Hesapla</a></li>
                 <li><a href="doviz.html">Döviz &amp; Kıymetli Maden</a></li>
-                <li><a href="#" class="disabled-link">Tahmini Gelir–Gider</a></li>
-                <li><a href="index.html" class="logout-btn" onclick="cikisYap()">Çıkış Yap</a></li>
+                <li><a href="tahmini.html">Tahmini Gelir–Gider</a></li>
+                <li><a href="#" class="logout-btn" onclick="cikisYap(event)">Çıkış Yap</a></li>
             </ul>
         </div>
     </div>
@@ -37,7 +37,7 @@
             <h1>Profil Bilgilerin</h1>
             <p>
                 Bu sayfada Para Uzmanı hesabına ait temel bilgilerini görebilir ve istersen 
-                hemen aşağıdan güncelleyebilirsin. Değişiklikler yalnızca bu sayfada örnek amaçlı gösterilir.
+                hemen aşağıdan güncelleyebilirsin.
             </p>
         </div>
 
@@ -59,7 +59,7 @@
 
         <!-- Profil düzenleme kartı -->
         <div class="profile-edit-card">
-            <h2>Bilgileri Düzenle</h2>
+            <h2>Bilgileri Düzenle</h2><br>
 
             <div class="form-group">
                 <label for="input-name">Ad Soyad</label>
@@ -82,33 +82,8 @@
     </div>
 
     <!-- Basit JS -->
-    <script>
-        // Çıkış yap fonksiyonu (dashboard ile aynı mantık)
-        function cikisYap() {
-            var cevap = confirm("Çıkış yapmak istediğinize emin misiniz?");
-            if (cevap == true) {
-                window.location = "index.html";
-            }
-        }
+    <script src="js/profil.js">
 
-        // Profil bilgilerini güncelle (sadece ekranda)
-        function profilGuncelle() {
-            var yeniAd = document.getElementById("input-name").value;
-            var yeniEmail = document.getElementById("input-email").value;
-            var yeniKullanici = document.getElementById("input-username").value;
-
-            if (yeniAd != "") {
-                document.getElementById("p-name").textContent = yeniAd;
-            }
-            if (yeniEmail != "") {
-                document.getElementById("p-email").textContent = yeniEmail;
-            }
-            if (yeniKullanici != "") {
-                document.getElementById("p-username").textContent = yeniKullanici;
-            }
-
-            alert("Profil başarıyla güncellendi!");
-        }
     </script>
 
 </body>

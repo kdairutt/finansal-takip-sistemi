@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Para Uzmanı - Tahmini Gelir–Gider</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/tahmini.css">
+</head>
+<body>
+
+    <!-- Üst Menü (giriş sonrası) -->
+    <div class="top-bar">
+        <div class="top-bar-inner">
+            <div class="logo">
+                <a href="dashboard.html">Para Uzmanı</a>
+            </div>
+
+            <ul class="top-menu">
+                <li><a href="dashboard.html">Ana Ekran</a></li>
+                <li><a href="profil.html">Profil</a></li>
+                <li><a href="varliklar.html">Varlıklarım</a></li>
+                <li><a href="borclar.html">Borçlarım</a></li>
+                <li><a href="gelirler.html">Gelirlerim</a></li>
+                <li><a href="giderler.html">Giderlerim</a></li>
+                <li><a href="faiz_islemleri.html">Faiz Hesapla</a></li>
+                <li><a href="doviz.html">Döviz &amp; Kıymetli Maden</a></li>
+                <li><a href="tahmini.html" class="active">Tahmini Gelir–Gider</a></li>
+                <li><a href="#" class="logout-btn" onclick="cikisYap(event)">Çıkış Yap</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Ana İçerik -->
+    <div class="container">
+
+        <div class="page-header">
+            <h1>Tahmini Gelir–Gider Analizi</h1>
+            <p>
+                Bu sayfa, sistemde kayıtlı olan <strong>aylık gelir</strong> ve <strong>aylık gider</strong> değerlerini
+                kullanarak <strong>bir sonraki ay için basit bir tahmin</strong> yapar.
+                Hiçbir şey değiştirmezsen, bu ay ile tamamen aynı rakamlarla devam ettiğini varsayar.
+            </p>
+        </div>
+
+        <!-- Mevcut verilerin özeti -->
+        <div class="card">
+            <h2>Bu Ayın Sistemde Kayıtlı Değerleri</h2>
+            <p>
+                Aşağıdaki değerler, <strong>Gelirlerim</strong> ve <strong>Giderlerim</strong> sayfalarına eklediğin verilerden
+                alınır ve dashboard ekranındaki aylık özetle aynıdır.
+            </p>
+
+            <ul class="summary-list">
+                <li>Aylık gelir: <strong id="mevcut-aylik-gelir">0 TL</strong></li>
+                <li>Aylık gider: <strong id="mevcut-aylik-gider">0 TL</strong></li>
+                <li>Aylık net durum: <strong id="mevcut-aylik-net">0 TL</strong></li>
+            </ul>
+
+            <p class="card-note">
+                Not: Eğer tüm değerler 0 görünüyorsa, önce Gelirlerim ve Giderlerim sayfalarına veri eklemen gerekir.
+            </p>
+        </div>
+
+        <!-- Senaryo kartı -->
+        <div class="card">
+            <h2>Gelecek Ay Basit Tahmin</h2>
+            <p>
+                Varsayılan olarak sistem, <strong>gelecek ayın bu ay ile aynı</strong> olacağını kabul eder.
+                İstersen aşağıya küçük bir yüzde değişimi yazarak
+                “gelecek ay biraz artsa / azalsa ne olurdu?” senaryosunu görebilirsin.
+            </p>
+
+            <div class="inline-form">
+                <div class="form-group">
+                    <label for="gelir-degisim">Gelir değişimi (%)</label>
+                    <input type="number" id="gelir-degisim" placeholder="Boş bırakırsan: 0 (değişim yok)">
+                </div>
+
+                <div class="form-group">
+                    <label for="gider-degisim">Gider değişimi (%)</label>
+                    <input type="number" id="gider-degisim" placeholder="Boş bırakırsan: 0 (değişim yok)">
+                </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="senaryoHesapla(false)">Senaryoyu Hesapla</button>
+
+            <div class="result-box" id="senaryo-sonuc-text">
+                Henüz bir hesaplama yapılmadı.
+            </div>
+        </div>
+
+        <!-- Genel finansal durum çubuğu -->
+        <div class="card">
+            <h2>Genel Finansal Durum (Gelecek Ay Tahmini)</h2>
+            <p>
+                Aşağıdaki çubuk, <strong>gelecek ay için tahmini gelir</strong> ve
+                <strong>tahmini net durum</strong> kullanılarak hazırlanır.
+                Net değer gelirine göre ne kadar güçlü ise bar sağa ve yeşile doğru,
+                zayıf veya negatife yakınsa sola ve kırmızıya doğru kayar.
+            </p>
+
+            <div class="durum-bar">
+                <div class="durum-bar-inner" id="durum-bar-inner"></div>
+            </div>
+            <p class="durum-bar-text" id="durum-bar-text">
+                Genel finansal durum çubuğu, tahmin hesaplandıktan sonra güncellenecektir.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/tahmini.js">
+
+    </script>
+
+</body>
+</html>

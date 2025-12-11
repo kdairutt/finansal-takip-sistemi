@@ -12,7 +12,7 @@
     <div class="top-bar">
         <div class="top-bar-inner">
             <div class="logo">
-                <a href="index.html">Para Uzmanı</a>
+                <a href="index.html">Para Uzmanı ®</a>
             </div>
 
             <ul class="top-menu">
@@ -47,6 +47,7 @@
                     <li>Gelir ve giderlerini düzenli şekilde kaydet.</li>
                     <li>Varlık ve borçlarını ayrı ayrı takip et.</li>
                     <li>Faiz ve döviz hesaplamalarını kolayca yap.</li>
+                    <li>Gelecekteki tahmini gelir-gider dengelerini görüntüle.</li>
                 </ul>
                 <p style="margin-top:10px;">
                     Kayıt olurken girdiğin bilgiler ders projesi kapsamında yalnızca 
@@ -58,7 +59,7 @@
             <div class="form-card">
                 <h2>Kayıt Formu</h2>
 
-                <form action="#" method="post">
+                <form onsubmit="kayitOl(event)">
                     <div class="form-group">
                         <label for="fullname">Ad Soyad <span class="required">*</span></label>
                         <input type="text" id="fullname" name="fullname" required>
@@ -84,8 +85,7 @@
                         <input type="password" id="password2" name="password2" required>
                     </div>
 
-                    <button type="submit" class="btn btn-primary"><a href="giris.html" style="color: #fff;
-            text-decoration: none;">Kayıt Ol</a></button>
+                    <button type="submit" class="btn btn-primary">Kayıt Ol</button>
 
                     <div class="form-footer">
                         Zaten bir hesabın var mı?
@@ -97,6 +97,10 @@
         </div>
 
     </div>
+
+    <script src="js/kayit.js">
+
+    </script>
 
 </body>
 </html>

@@ -24,8 +24,8 @@
                 <li><a href="giderler.html" class="active">Giderlerim</a></li>
                 <li><a href="faiz.html">Faiz Hesapla</a></li>
                 <li><a href="doviz.html">Döviz &amp; Kıymetli Maden</a></li>
-                <li><a href="#" class="disabled-link">Tahmini Gelir–Gider</a></li>
-                <li><a href="index.html" class="logout-btn" onclick="cikisYap()">Çıkış Yap</a></li>
+                <li><a href="tahmini.html">Tahmini Gelir–Gider</a></li>
+                <li><a href="index.html" class="logout-btn" onclick="cikisYap(event)">Çıkış Yap</a></li>
             </ul>
         </div>
     </div>
@@ -60,9 +60,20 @@
                 <input type="text" id="gider-adi" placeholder="Örn: Kira, Market, Ulaşım">
             </div>
 
+            <!-- BURASI DEĞİŞTİ: input yerine select -->
             <div class="form-group">
                 <label for="gider-kategori">Kategori</label>
-                <input type="text" id="gider-kategori" placeholder="Örn: Barınma, Gıda, Ulaşım, Eğlence">
+                <select id="gider-kategori">
+                    <option value="">Kategori Seçin</option>
+                    <option value="Kira Harcamaları">Kira Harcamaları</option>
+                    <option value="Market Harcamaları">Market Harcamaları</option>
+                    <option value="Ulaşım Harcamaları">Ulaşım Harcamaları</option>
+                    <option value="Fatura Ödemeleri">Fatura Ödemeleri</option>
+                    <option value="Eğlence &amp; Sosyal">Eğlence &amp; Sosyal</option>
+                    <option value="Sağlık Giderleri">Sağlık Giderleri</option>
+                    <option value="Eğitim Giderleri">Eğitim Giderleri</option>
+                    <option value="Diğer">Diğer</option>
+                </select>
             </div>
 
             <div class="form-group">
@@ -81,7 +92,7 @@
         <!-- Giderler tablosu -->
         <div class="card">
             <h2>Gider Listesi</h2>
-            <p>Eklediğin giderler aşağıdaki tabloda gösterilir. İstersen satırları silebilirsin.</p>
+            <p>Eklediğin giderler aşağıdaki tabloda gösterilir.</p>
 
             <table>
                 <thead>
@@ -102,73 +113,7 @@
     </div>
 
     <!-- Basit JS -->
-    <script>
-        // Toplam gideri hesapla
-        function toplamGideriHesapla() {
-            var hucreler = document.getElementsByClassName("gider-hucre");
-            var toplam = 0;
-
-            for (var i = 0; i < hucreler.length; i++) {
-                var deger = Number(hucreler[i].textContent);
-                if (!isNaN(deger)) toplam += deger;
-            }
-
-            document.getElementById("toplam-gider").textContent = toplam + " TL";
-            localStorage.setItem("aylikGider", toplam);
-        }
-
-        // Yeni gider ekle
-        function giderEkle() {
-            var ad = document.getElementById("gider-adi").value;
-            var tutar = document.getElementById("gider-tutar").value;
-            var not = document.getElementById("gider-not").value;
-
-            if (ad == "" || tutar == "") {
-                alert("Lütfen gider adı ve tutar alanlarını doldurun.");
-                return;
-            }
-
-            var govde = document.getElementById("gider-tablo-govde");
-            var satir = document.createElement("tr");
-
-            satir.innerHTML = `
-                <td>${ad}</td>
-                <td class="gider-hucre">${tutar}</td>
-                <td>${not}</td>
-                <td><button class="btn-delete" onclick="giderSil(this)">Sil</button></td>
-            `;
-
-            govde.appendChild(satir);
-            toplamGideriHesapla();
-
-            document.getElementById("gider-adi").value = "";
-            document.getElementById("gider-tutar").value = "";
-            document.getElementById("gider-not").value = "";
-        }
-
-        // Gider sil
-        function giderSil(btn) {
-            if (!confirm("Bu gideri silmek istediğinize emin misiniz?")) return;
-
-            var satir = btn.parentNode.parentNode;
-            satir.parentNode.removeChild(satir);
-
-            toplamGideriHesapla();
-        }
-
-        // İlk yüklemede localStorage değerini göster
-        function toplamGideriGoster() {
-            var kayitli = localStorage.getItem("aylikGider");
-
-            if (kayitli !== null)
-                document.getElementById("toplam-gider").textContent = kayitli + " TL";
-            else
-                document.getElementById("toplam-gider").textContent = "0 TL";
-        }
-
-        window.onload = function () {
-            toplamGideriGoster();
-        };
+    <script src="js/giderler.js">
     </script>
 
 </body>

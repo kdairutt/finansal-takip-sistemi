@@ -24,8 +24,8 @@
                 <li><a href="giderler.html">Giderlerim</a></li>
                 <li><a href="faiz.html">Faiz Hesapla</a></li>
                 <li><a href="doviz.html">Döviz &amp; Kıymetli Maden</a></li>
-                <li><a href="#" class="disabled-link">Tahmini Gelir–Gider</a></li>
-                <li><a href="index.html" class="logout-btn" onclick="cikisYap()">Çıkış Yap</a></li>
+                <li><a href="tahmini.html">Tahmini Gelir–Gider</a></li>
+                <li><a href="index.html" class="logout-btn" onclick="cikisYap(event)">Çıkış Yap</a></li>
             </ul>
         </div>
     </div>
@@ -51,28 +51,39 @@
         </div>
 
         <!-- Gelir ekleme formu -->
+        <!-- Gelir ekleme formu -->
         <div class="card">
             <h2>Yeni Gelir Ekle</h2>
-            <p>Temel gelir bilgilerini girerek listeye ekleyebilirsin. Tutarları aylık bazda yazman yeterli.</p>
+            <p>Temel gelir bilgilerini girerek listeye ekleyebilirsin. Maaş, ek iş, yatırım kazancı gibi gelir türlerini seçebilirsin.</p>
 
             <div class="form-group">
                 <label for="gelir-adi">Gelir Adı</label>
-                <input type="text" id="gelir-adi" placeholder="Örn: Maaş, Burs, Freelance">
+                <input type="text" id="gelir-adi" placeholder="Örn: Maaş, Ek İş, Temettü">
             </div>
 
             <div class="form-group">
-                <label for="gelir-turu">Gelir Türü</label>
-                <input type="text" id="gelir-turu" placeholder="Örn: Düzenli, Ek Gelir">
+                <label for="gelir-kategori">Kategori</label>
+                <select id="gelir-kategori">
+                    <option value="">Seçiniz...</option>
+                    <option value="Maaş">Maaş</option>
+                    <option value="Ek İş">Ek İş</option>
+                    <option value="Freelance">Freelance</option>
+                    <option value="Yatırım Geliri">Yatırım Geliri</option>
+                    <option value="Kira Geliri">Kira Geliri</option>
+                    <option value="Faiz Geliri">Faiz Geliri</option>
+                    <option value="Döviz / Altın Kazancı">Döviz / Altın Kazancı</option>
+                    <option value="Diğer">Diğer</option>
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="gelir-tutar">Tutar (TL)</label>
-                <input type="number" id="gelir-tutar" placeholder="Örn: 8000">
+                <input type="number" id="gelir-tutar" placeholder="Örn: 15000">
             </div>
 
             <div class="form-group">
                 <label for="gelir-not">Not (isteğe bağlı)</label>
-                <input type="text" id="gelir-not" placeholder="Örn: Part-time iş, proje ödemesi vb.">
+                <input type="text" id="gelir-not" placeholder="Örn: Prim dahil, aylık düzenli vb.">
             </div>
 
             <button class="btn btn-primary" onclick="gelirEkle()">Gelir Ekle</button>
@@ -81,7 +92,7 @@
         <!-- Gelirler tablosu -->
         <div class="card">
             <h2>Gelir Listesi</h2>
-            <p>Eklediğin gelirler aşağıdaki tabloda gösterilir. İstersen satırları silebilirsin.</p>
+            <p>Eklediğin gelirler aşağıdaki tabloda gösterilir.</p>
 
             <table>
                 <thead>
@@ -98,77 +109,10 @@
                 </tbody>
             </table>
         </div>
-
     </div>
 
     <!-- Basit JS -->
-    <script>
-        // Toplam aylık geliri hesapla
-        function toplamGeliriHesapla() {
-            var hucreler = document.getElementsByClassName("gelir-hucre");
-            var toplam = 0;
-
-            for (var i = 0; i < hucreler.length; i++) {
-                var deger = Number(hucreler[i].textContent);
-                if (!isNaN(deger)) toplam += deger;
-            }
-
-            document.getElementById("toplam-gelir").textContent = toplam + " TL";
-            localStorage.setItem("aylikGelir", toplam);
-        }
-
-        // Yeni gelir ekle
-        function gelirEkle() {
-            var ad = document.getElementById("gelir-adi").value;
-            var tutar = document.getElementById("gelir-tutar").value;
-            var not = document.getElementById("gelir-not").value;
-
-            if (ad == "" || tutar == "") {
-                alert("Lütfen gelir adı ve tutar alanlarını doldurun.");
-                return;
-            }
-
-            var govde = document.getElementById("gelir-tablo-govde");
-            var satir = document.createElement("tr");
-
-            satir.innerHTML = `
-                <td>${ad}</td>
-                <td class="gelir-hucre">${tutar}</td>
-                <td>${not}</td>
-                <td><button class="btn-delete" onclick="gelirSil(this)">Sil</button></td>
-            `;
-
-            govde.appendChild(satir);
-            toplamGeliriHesapla();
-
-            document.getElementById("gelir-adi").value = "";
-            document.getElementById("gelir-tutar").value = "";
-            document.getElementById("gelir-not").value = "";
-        }
-
-        // Gelir sil
-        function gelirSil(btn) {
-            if (!confirm("Bu geliri silmek istediğinize emin misiniz?")) return;
-
-            var satir = btn.parentNode.parentNode;
-            satir.parentNode.removeChild(satir);
-
-            toplamGeliriHesapla();
-        }
-
-        // Yüklenince mevcut toplamı göster
-        function toplamGeliriGoster() {
-            var kayitli = localStorage.getItem("aylikGelir");
-
-            if (kayitli !== null)
-                document.getElementById("toplam-gelir").textContent = kayitli + " TL";
-            else
-                document.getElementById("toplam-gelir").textContent = "0 TL";
-        }
-
-        window.onload = function () {
-            toplamGeliriGoster();
-        };
+    <script src="js/gelirler.js">
     </script>
 
 </body>

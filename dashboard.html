@@ -24,8 +24,8 @@
                 <li><a href="giderler.html">Giderlerim</a></li>
                 <li><a href="faiz.html">Faiz Hesapla</a></li>
                 <li><a href="doviz.html">Döviz &amp; Kıymetli Maden</a></li>
-                <li><a href="#" class="disabled-link">Tahmini Gelir–Gider</a></li>
-                <li><a href="index.html" class="logout-btn" onclick="cikisYap()">Çıkış Yap</a></li>
+                <li><a href="tahmini.html">Tahmini Gelir–Gider</a></li>
+                <li><a href="#" class="logout-btn" onclick="cikisYap(event)">Çıkış Yap</a></li>
             </ul>
         </div>
     </div>
@@ -120,8 +120,8 @@
     <div class="fin-panel">
         <h2>Genel Finansal Durumun</h2>
         <p>
-            Net varlık ve aylık net durumuna göre hesaplanan basit bir gösterge.
-            Borç ve giderlerin arttıkça çubuk sola doğru kısalır ve rengi kızarır.
+            Net varlık ve aylık net durumuna göre hesaplanan gösterge.
+            
         </p>
 
         <div class="fin-bar-wrapper">
@@ -137,158 +137,64 @@
         </div>
     </div>
 
+            <!-- Harcama Dağılımı Kartı -->
+        <div class="card">
+            <h2>Harcama Dağılımı</h2><br>
+            <p>
+                Giderlerim sayfasına eklediğin kayıtlar kullanılarak, hangi gider türüne
+                ne kadar harcama yaptığın ve toplam gider içindeki payı hesaplanır.
+            </p>
+
+            <table class="harcama-table">
+                <thead>
+                    <tr>
+                        <th>Gider Türü</th>
+                        <th>Toplam Tutar</th>
+                        <th>Toplam Gidere Oranı</th>
+                    </tr>
+                </thead>
+                <tbody id="harcama-kategori-tablo">
+                    <tr>
+                        <td colspan="3">Harcama analizi için veri yükleniyor...</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p class="harcama-comment" id="harcama-yorum">
+                En çok hangi kaleme harcama yaptığını görmek için Giderlerim sayfasına birkaç kayıt ekleyebilirsin.
+            </p>
+        </div>
+
+                <!-- Gelir Dağılımı Kartı -->
+        <div class="card">
+            <h2>Gelir Dağılımı</h2><br>
+            <p>
+                Gelirlerim sayfasına eklediğin kayıtlar kullanılarak, hangi gelir türünden
+                ne kadar kazandığın ve toplam gelir içindeki payı hesaplanır.
+            </p>
+
+            <table class="gelir-table">
+                <thead>
+                    <tr>
+                        <th>Gelir Türü</th>
+                        <th>Toplam Tutar</th>
+                        <th>Toplam Gelire Oranı</th>
+                    </tr>
+                </thead>
+                <tbody id="gelir-kategori-tablo">
+                    <tr>
+                        <td colspan="3">Gelir analizi için veri yükleniyor...</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p class="gelir-comment" id="gelir-yorum">
+                Gelir türlerine göre dağılımı görebilmek için Gelirlerim sayfasına birkaç kayıt ekleyebilirsin.
+            </p>
+        </div>
+
     <!-- Basit JavaScript -->
-    <script>
-        // Çıkış Yap
-        function cikisYap() {
-            var cevap = confirm("Çıkış yapmak istediğinize emin misiniz?");
-            if (cevap == true) {
-                window.location = "index.html";
-            }
-        }
-
-        // Sayıyı "X.XXX TL" formatında göstermek için yardımcı fonksiyon
-        function formatTL(value) {
-            if (isNaN(value)) {
-                return "0 TL";
-            }
-            return value.toLocaleString("tr-TR") + " TL";
-        }
-
-        // Dashboard verilerini localStorage'tan yükle
-        function dashboardVerileriniYukle() {
-            // Varlık / borç özetleri
-            var assetsText = localStorage.getItem("toplamVarlik");
-            var debtsText  = localStorage.getItem("toplamBorc");
-
-            var assets = Number(assetsText);
-            var debts  = Number(debtsText);
-
-            var assetsElement = document.getElementById("card-total-assets");
-            var debtsElement  = document.getElementById("card-total-debts");
-            var netElement    = document.getElementById("card-net-worth");
-
-            if (!isNaN(assets)) {
-                assetsElement.textContent = formatTL(assets);
-            }
-            if (!isNaN(debts)) {
-                debtsElement.textContent = formatTL(debts);
-            }
-
-            if (!isNaN(assets) && !isNaN(debts)) {
-                var net = assets - debts;
-                netElement.textContent = formatTL(net);
-
-                if (net < 0) {
-                    netElement.classList.add("card-negative");
-                    netElement.classList.remove("card-highlight");
-                } else {
-                    netElement.classList.add("card-highlight");
-                    netElement.classList.remove("card-negative");
-                }
-            }
-
-            // Aylık gelir / gider özetleri (Gelirlerim / Giderlerim sayfasından set edilecek)
-            var aylikGelirText = localStorage.getItem("aylikGelir");
-            var aylikGiderText = localStorage.getItem("aylikGider");
-
-            var aylikGelir = Number(aylikGelirText);
-            var aylikGider = Number(aylikGiderText);
-            var aylikNet   = aylikGelir - aylikGider;
-
-            var incomeElement  = document.getElementById("card-monthly-income");
-            var expenseElement = document.getElementById("card-monthly-expense");
-            var netMonthlyEl   = document.getElementById("card-monthly-net");
-            
-            if (!isNaN(aylikGelir)) {
-                incomeElement.textContent = formatTL(aylikGelir);
-            }
-            if (!isNaN(aylikGider)) {
-                expenseElement.textContent = formatTL(aylikGider);
-            }
-            if (!isNaN(aylikGelir) && !isNaN(aylikGider)) {
-                netMonthlyEl.textContent = formatTL(aylikNet);
-
-                if (aylikNet < 0) {
-                    netMonthlyEl.classList.add("card-negative");
-                    netMonthlyEl.classList.remove("card-highlight");
-                } else {
-                    netMonthlyEl.classList.add("card-highlight");
-                    netMonthlyEl.classList.remove("card-negative");
-                }
-            }
-        }
-
-    // Genel finansal durum çubuğunu güncelle
-    function finansalDurumBariniGuncelle() {
-        // Varlık / borç
-        var assets = Number(localStorage.getItem("toplamVarlik") || 0);
-        var debts  = Number(localStorage.getItem("toplamBorc") || 0);
-
-        // Aylık gelir / gider
-        var aylikGelir = Number(localStorage.getItem("aylikGelir") || 0);
-        var aylikGider = Number(localStorage.getItem("aylikGider") || 0);
-
-        var netVarlik = assets - debts;           // uzun vadeli güç
-        var aylikNet  = aylikGelir - aylikGider;  // o ayın performansı
-
-        // Toplam finansal "puan"
-        var toplamDurum = netVarlik + aylikNet;
-
-        // --- NORMALİZE ETME MANTIĞI ---
-        // Burada bir aralık belirliyoruz:
-        // -200.000 TL  -> %0 (bar kısacık, kıpkırmızı)
-        //  200.000 TL  -> %100 (bar full, yemyeşil)
-        var minDeger = -200000;
-        var maxDeger =  200000;
-        var oran = (toplamDurum - minDeger) / (maxDeger - minDeger);
-
-        if (oran < 0) oran = 0;
-        if (oran > 1) oran = 1;
-
-        var yuzde = Math.round(oran * 100);
-
-        var bar   = document.getElementById("fin-bar-inner");
-        var text  = document.getElementById("fin-bar-text");
-        var note  = document.getElementById("fin-bar-note");
-
-        // Çubuğun genişliği: borç/gider arttıkça toplamDurum düşer, oran küçülür, width azalır
-        bar.style.width = yuzde + "%";
-
-        // Renk: sola yaklaştıkça kırmızı, ortalarda turuncu, sağa yaklaştıkça yeşil
-        var renk;
-        var seviyeMetni;
-
-        if (yuzde <= 30) {
-            renk = "#e53935";          // kırmızı
-            seviyeMetni = "Riskli";
-        } else if (yuzde <= 60) {
-            renk = "#fb8c00";          // turuncu
-            seviyeMetni = "Dikkatli";
-        } else {
-            renk = "#43a047";          // yeşil
-            seviyeMetni = "Güvende";
-        }
-
-        bar.style.backgroundColor = renk;
-
-        text.textContent = "Genel finansal durum: " + seviyeMetni + " (" + yuzde + "%)";
-        note.textContent = 
-            "Net varlık: " + netVarlik + " TL, aylık net: " + aylikNet + 
-            " TL → Toplam: " + toplamDurum + " TL";
-    }
-
-        // Sayfa açıldığında verileri yükle
-        window.onload = function () {
-        dashboardVerileriniYukle();      // zaten vardı
-        finansalDurumBariniGuncelle();   // senin eklemen gereken satır
-        };
-
-        // Kullanıcı adını yükle
-        var ad = localStorage.getItem("kullaniciAdi");
-        if (ad) {
-            document.getElementById("hosgeldinMesaji").textContent = "Hoş Geldin, " + ad + "!";
-        }
+    <script src="js/dashboard.js">
     </script>
 
 </body>

@@ -24,8 +24,8 @@
                 <li><a href="giderler.html">Giderlerim</a></li>
                 <li><a href="faiz.html">Faiz Hesapla</a></li>
                 <li><a href="doviz.html">Döviz &amp; Kıymetli Maden</a></li>
-                <li><a href="#" class="disabled-link">Tahmini Gelir–Gider</a></li>
-                <li><a href="index.html" class="logout-btn" onclick="cikisYap()">Çıkış Yap</a></li>
+                <li><a href="tahmini.html">Tahmini Gelir–Gider</a></li>
+                <li><a href="#" class="logout-btn" onclick="cikisYap(event)">Çıkış Yap</a></li>
             </ul>
         </div>
     </div>
@@ -86,7 +86,7 @@
         <!-- Borçlar tablosu -->
         <div class="card">
             <h2>Borç Listesi</h2>
-            <p>Eklediğin borçlar aşağıdaki tabloda gösterilir. İstersen satırları silebilirsin.</p>
+            <p>Eklediğin borçlar aşağıdaki tabloda gösterilir.</p>
 
             <table>
                 <thead>
@@ -100,92 +100,12 @@
                     </tr>
                 </thead>
                 <tbody id="borc-tablo-govde">
-                    <!-- Başlangıçta boş, kullanıcı ekledikçe dolacak -->
-                    <tr></tr>
                 </tbody>
             </table>
         </div>
 
     </div>
-
-    <!-- Basit JS -->
-    <script>
-                // Çıkış yap
-        function cikisYap() {
-            var cevap = confirm("Çıkış yapmak istediğinize emin misiniz?");
-            if (cevap) window.location = "index.html";
-        }
-
-        // Toplam borcu hesapla
-        function toplamBorcuHesapla() {
-            var hucreler = document.getElementsByClassName("borc-hucre");
-            var toplam = 0;
-
-            for (var i = 0; i < hucreler.length; i++) {
-                var deger = Number(hucreler[i].textContent);
-                if (!isNaN(deger)) toplam += deger;
-            }
-
-            document.getElementById("toplam-borc").textContent = toplam + " TL";
-            localStorage.setItem("toplamBorc", toplam);
-        }
-
-        // Borç ekle
-        function borcEkle() {
-            var ad = document.getElementById("borc-adi").value;
-            var tur = document.getElementById("borc-turu").value;
-            var tutar = document.getElementById("borc-tutar").value;
-            var not = document.getElementById("borc-not").value;
-
-            if (ad == "" || tur == "" || tutar == "") {
-                alert("Lütfen tüm zorunlu alanları doldurun.");
-                return;
-            }
-
-            var govde = document.getElementById("borc-tablo-govde");
-            var satir = document.createElement("tr");
-
-            satir.innerHTML = `
-                <td>${ad}</td>
-                <td>${tur}</td>
-                <td class="borc-hucre">${tutar}</td>
-                <td>${not}</td>
-                <td><button class="btn-delete" onclick="borcSil(this)">Sil</button></td>
-            `;
-
-            govde.appendChild(satir);
-            toplamBorcuHesapla();
-
-            document.getElementById("borc-adi").value = "";
-            document.getElementById("borc-turu").value = "";
-            document.getElementById("borc-tutar").value = "";
-            document.getElementById("borc-not").value = "";
-        }
-
-        // Borç sil
-        function borcSil(btn) {
-            if (!confirm("Bu borcu silmek istediğinize emin misiniz?")) return;
-
-            var satir = btn.parentNode.parentNode;
-            satir.parentNode.removeChild(satir);
-
-            toplamBorcuHesapla();
-        }
-
-        // Sayfa yüklendiğinde sadece kayıtlı toplam borcu göster
-        function toplamBorcuGoster() {
-            var kayitli = localStorage.getItem("toplamBorc");
-
-            if (kayitli !== null)
-                document.getElementById("toplam-borc").textContent = kayitli + " TL";
-            else
-                document.getElementById("toplam-borc").textContent = "0 TL";
-        }
-
-        window.onload = function () {
-            toplamBorcuGoster();
-        };
+    <script src="js/borclar.js">
     </script>
-
 </body>
 </html>
