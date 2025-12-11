@@ -199,11 +199,23 @@
             satir.parentNode.removeChild(satir);
 
             // Toplam varlığı tekrar hesapla
-            toplamVarligiHesapla();
         }
 
-        // Sayfa ilk yüklendiğinde mevcut satırlara göre toplamı hesapla
-        toplamVarligiHesapla();
+        // Sayfa ilk yüklendiğinde localStorage'daki değeri sadece göster
+        function toplamVarligiGoster() {
+            var kayitliToplam = localStorage.getItem("toplamVarlik");
+
+            if (kayitliToplam !== null) {
+                document.getElementById("toplam-varlik").textContent = kayitliToplam + " TL";
+            } else {
+                document.getElementById("toplam-varlik").textContent = "0 TL";
+            }
+        }
+
+        // Sayfa yüklenince sadece göster, hesaplama yapıp sıfırlama
+        window.onload = function () {
+            toplamVarligiGoster();
+        };
 
     </script>
 

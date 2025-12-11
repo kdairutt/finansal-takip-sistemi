@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Para Uzmanı - Döviz & Kıymetli Maden</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/doviz.css">
+</head>
+<body>
+
+    <!-- Üst Menü (giriş sonrası) -->
+    <div class="top-bar">
+        <div class="top-bar-inner">
+            <div class="logo">
+                <a href="dashboard.html">Para Uzmanı</a>
+            </div>
+
+            <ul class="top-menu">
+                <li><a href="dashboard.html">Ana Ekran</a></li>
+                <li><a href="profil.html">Profil</a></li>
+                <li><a href="varliklar.html">Varlıklarım</a></li>
+                <li><a href="borclar.html">Borçlarım</a></li>
+                <li><a href="gelirler.html">Gelirlerim</a></li>
+                <li><a href="giderler.html">Giderlerim</a></li>
+                <li><a href="faiz.html">Faiz Hesapla</a></li>
+                <li><a href="doviz.html" class="active">Döviz &amp; Kıymetli Maden</a></li>
+                <li><a href="#" class="disabled-link">Tahmini Gelir–Gider</a></li>
+                <li><a href="index.html" class="logout-btn" onclick="cikisYap()">Çıkış Yap</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Ana İçerik -->
+    <div class="container">
+
+        <div class="page-header">
+            <h1>Döviz &amp; Kıymetli Maden Dönüşümleri</h1>
+            <p>
+                Bu sayfada farklı para birimlerini (TL, USD, EUR, GBP, CNY vb.) birbirine
+                çevirebilir, ayrıca bu para birimlerinden altın, gümüş ve elmas cinsinden
+                yaklaşık değer hesaplayabilirsin. Kullanılan kur ve fiyatlar örnek amaçlıdır.
+            </p>
+        </div>
+
+        <!-- Döviz Çevirici -->
+        <div class="card">
+            <h2>Döviz Çevirici</h2>
+            <p>
+                Bir para birimindeki tutarı, başka bir para birimine örnek kur bilgilerine göre
+                çevirmek için kullanabilirsin.
+            </p>
+
+            <div class="form-row">
+                <div class="form-group-inline">
+                    <label for="dv-tutar">Tutar</label>
+                    <input type="number" id="dv-tutar" placeholder="Örn: 1000">
+                </div>
+
+                <div class="form-group-inline">
+                    <label for="dv-kaynak">Kaynak Para Birimi</label>
+                    <select id="dv-kaynak">
+                        <option value="TRY">TL (TRY)</option>
+                        <option value="USD">Dolar (USD)</option>
+                        <option value="EUR">Euro (EUR)</option>
+                        <option value="GBP">Pound (GBP)</option>
+                        <option value="CNY">Çin Yeni (CNY)</option>
+                    </select>
+                </div>
+
+                <div class="form-group-inline">
+                    <label for="dv-hedef">Hedef Para Birimi</label>
+                    <select id="dv-hedef">
+                        <option value="USD">Dolar (USD)</option>
+                        <option value="EUR">Euro (EUR)</option>
+                        <option value="GBP">Pound (GBP)</option>
+                        <option value="CNY">Çin Yeni (CNY)</option>
+                        <option value="TRY">TL (TRY)</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="dovizCevir()">Döviz Çevir</button>
+
+            <div class="result-box" id="dv-sonuc">
+                Henüz bir döviz çevirme işlemi yapılmadı.
+            </div>
+        </div>
+
+        <!-- Para Biriminden Kıymetli Madene -->
+        <div class="card">
+            <h2>Para Biriminden Kıymetli Madene Dönüşüm</h2>
+            <p>
+                Seçtiğin para birimindeki tutarın yaklaşık olarak kaç gram altın/gümüşe veya
+                kaç karat elmasa karşılık geldiğini görebilirsin.
+            </p>
+
+            <div class="form-row">
+                <div class="form-group-inline">
+                    <label for="pm-tutar">Tutar</label>
+                    <input type="number" id="pm-tutar" placeholder="Örn: 5000">
+                </div>
+
+                <div class="form-group-inline">
+                    <label for="pm-para">Para Birimi</label>
+                    <select id="pm-para">
+                        <option value="TRY">TL (TRY)</option>
+                        <option value="USD">Dolar (USD)</option>
+                        <option value="EUR">Euro (EUR)</option>
+                        <option value="GBP">Pound (GBP)</option>
+                        <option value="CNY">Çin Yeni (CNY)</option>
+                    </select>
+                </div>
+
+                <div class="form-group-inline">
+                    <label for="pm-maden">Kıymetli Maden</label>
+                    <select id="pm-maden">
+                        <option value="ALTIN">Altın (gram)</option>
+                        <option value="GUMUS">Gümüş (gram)</option>
+                        <option value="ELMAS">Elmas (karat)</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="paraBirimiMadenCevir()">Maden Değerini Hesapla</button>
+
+            <div class="result-box" id="pm-sonuc">
+                Henüz para biriminden kıymetli madene dönüşüm yapılmadı.
+            </div>
+        </div>
+
+        <!-- Kıymetli Madenden Para Birimine -->
+        <div class="card">
+            <h2>Kıymetli Madenden Para Birimine Dönüşüm</h2>
+            <p>
+                Elindeki altın/gümüş (gram) veya elmasın (karat) seçilen para birimindeki yaklaşık
+                karşılığını hesaplayabilirsin.
+            </p>
+
+            <div class="form-row">
+                <div class="form-group-inline">
+                    <label for="mp-miktar">Miktar</label>
+                    <input type="number" id="mp-miktar" placeholder="Örn: 10">
+                </div>
+
+                <div class="form-group-inline">
+                    <label for="mp-maden">Kıymetli Maden</label>
+                    <select id="mp-maden">
+                        <option value="ALTIN">Altın (gram)</option>
+                        <option value="GUMUS">Gümüş (gram)</option>
+                        <option value="ELMAS">Elmas (karat)</option>
+                    </select>
+                </div>
+
+                <div class="form-group-inline">
+                    <label for="mp-para">Para Birimi</label>
+                    <select id="mp-para">
+                        <option value="TRY">TL (TRY)</option>
+                        <option value="USD">Dolar (USD)</option>
+                        <option value="EUR">Euro (EUR)</option>
+                        <option value="GBP">Pound (GBP)</option>
+                        <option value="CNY">Çin Yeni (CNY)</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="madenParaBirimiCevir()">Para Değerini Hesapla</button>
+
+            <div class="result-box" id="mp-sonuc">
+                Henüz kıymetli madenden para birimine dönüşüm yapılmadı.
+            </div>
+        </div>
+
+        <!-- Küçük bilgilendirme -->
+        <div class="info-note">
+            Not: Bu sayfada kullanılan döviz kuru ve kıymetli maden fiyatları sadece
+            <strong>örnek amaçlıdır</strong>. Gerçek finansal kararlar için güncel verileri
+            kontrol etmen gerekir.
+        </div>
+
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Çıkış yap fonksiyonu
+        function cikisYap() {
+            var cevap = confirm("Çıkış yapmak istediğinize emin misiniz?");
+            if (cevap == true) {
+                window.location = "index.html";
+            }
+        }
+
+        // Örnek döviz kurları (1 birim para = ? TL)
+        // Not: Tamamen örnek değerlerdir.
+        var kurOranlari = {
+            "TRY": 1,       // 1 TL
+            "USD": 32,      // 1 USD = 32 TL
+            "EUR": 34,      // 1 EUR = 34 TL
+            "GBP": 40,      // 1 GBP = 40 TL
+            "CNY": 4.5      // 1 CNY = 4.5 TL
+        };
+
+        // Örnek kıymetli maden fiyatları (TL cinsinden)
+        // Altın / Gümüş: gram fiyatı, Elmas: karat fiyatı gibi düşünülebilir.
+        var madenFiyatlariTL = {
+            "ALTIN": 2500,      // 1 gram altın ≈ 2500 TL (örnek)
+            "GUMUS": 30,        // 1 gram gümüş ≈ 30 TL (örnek)
+            "ELMAS": 150000     // 1 karat elmas ≈ 150.000 TL (örnek)
+        };
+
+        // Basit formatlama (virgül ile ayır, sonuna para birimi veya birim ekleyebilmek için opsiyonel)
+        function formatNumber(value) {
+            if (isNaN(value)) {
+                return "0";
+            }
+            return value.toLocaleString("tr-TR", { maximumFractionDigits: 2 });
+        }
+
+        // ----- 1) Döviz → Döviz çevirici -----
+        function dovizCevir() {
+            var tutar = Number(document.getElementById("dv-tutar").value);
+            var kaynak = document.getElementById("dv-kaynak").value;
+            var hedef  = document.getElementById("dv-hedef").value;
+            var sonucKutusu = document.getElementById("dv-sonuc");
+
+            if (isNaN(tutar) || tutar <= 0) {
+                sonucKutusu.textContent = "Lütfen geçerli bir tutar gir.";
+                return;
+            }
+
+            if (kaynak === hedef) {
+                sonucKutusu.textContent = "Kaynak ve hedef para birimi aynı: " +
+                    formatNumber(tutar) + " " + kaynak;
+                return;
+            }
+
+            // 1) Kaynak para birimini TL'ye çevir
+            var kaynakKur = kurOranlari[kaynak];
+            var hedefKur  = kurOranlari[hedef];
+
+            if (!kaynakKur || !hedefKur) {
+                sonucKutusu.textContent = "Seçilen para birimleri için kur bilgisi bulunamadı.";
+                return;
+            }
+
+            var tutarTL = tutar * kaynakKur;
+            // 2) TL'den hedef para birimine çevir
+            var sonuc = tutarTL / hedefKur;
+
+            sonucKutusu.textContent =
+                formatNumber(tutar) + " " + kaynak +
+                " ≈ " + formatNumber(sonuc) + " " + hedef;
+        }
+
+        // ----- 2) Para Birimi → Kıymetli Maden -----
+        function paraBirimiMadenCevir() {
+            var tutar = Number(document.getElementById("pm-tutar").value);
+            var para  = document.getElementById("pm-para").value;
+            var maden = document.getElementById("pm-maden").value;
+            var sonucKutusu = document.getElementById("pm-sonuc");
+
+            if (isNaN(tutar) || tutar <= 0) {
+                sonucKutusu.textContent = "Lütfen geçerli bir tutar gir.";
+                return;
+            }
+
+            var kur = kurOranlari[para];
+            var madenFiyat = madenFiyatlariTL[maden];
+
+            if (!kur || !madenFiyat) {
+                sonucKutusu.textContent = "Seçilen para birimi veya kıymetli maden için veri bulunamadı.";
+                return;
+            }
+
+            // 1) Para birimini TL'ye çevir
+            var tutarTL = tutar * kur;
+            // 2) TL'yi madene çevir (gram/karat)
+            var miktar = tutarTL / madenFiyat;
+
+            var birim = "gram";
+            if (maden === "ELMAS") {
+                birim = "karat";
+            }
+
+            var madenAdi = (maden === "ALTIN") ? "altın" :
+                           (maden === "GUMUS") ? "gümüş" : "elmas";
+
+            sonucKutusu.textContent =
+                formatNumber(tutar) + " " + para +
+                " ≈ " + formatNumber(miktar) + " " + birim + " " + madenAdi;
+        }
+
+        // ----- 3) Kıymetli Maden → Para Birimi -----
+        function madenParaBirimiCevir() {
+            var miktar = Number(document.getElementById("mp-miktar").value);
+            var maden  = document.getElementById("mp-maden").value;
+            var para   = document.getElementById("mp-para").value;
+            var sonucKutusu = document.getElementById("mp-sonuc");
+
+            if (isNaN(miktar) || miktar <= 0) {
+                sonucKutusu.textContent = "Lütfen geçerli bir miktar gir.";
+                return;
+            }
+
+            var kur = kurOranlari[para];
+            var madenFiyat = madenFiyatlariTL[maden];
+
+            if (!kur || !madenFiyat) {
+                sonucKutusu.textContent = "Seçilen para birimi veya kıymetli maden için veri bulunamadı.";
+                return;
+            }
+
+            // 1) Madenin TL karşılığı
+            var toplamTL = miktar * madenFiyat;
+            // 2) TL'den seçilen para birimine çevir
+            var sonuc = toplamTL / kur;
+
+            var birim = "gram";
+            if (maden === "ELMAS") {
+                birim = "karat";
+            }
+
+            var madenAdi = (maden === "ALTIN") ? "altın" :
+                           (maden === "GUMUS") ? "gümüş" : "elmas";
+
+            sonucKutusu.textContent =
+                formatNumber(miktar) + " " + birim + " " + madenAdi +
+                " ≈ " + formatNumber(sonuc) + " " + para;
+        }
+    </script>
+
+</body>
+</html>

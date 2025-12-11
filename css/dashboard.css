@@ -186,6 +186,60 @@
             color: #e53935;
         }
 
+        .fin-panel {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 16px 16px 18px 16px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    border: 1px solid #e0e0e0;
+    margin-top: 10px;
+}
+
+    .fin-panel h2 {
+        font-size: 18px;
+        margin-bottom: 6px;
+        color: #1e2a3b;
+    }
+
+    .fin-panel p {
+        font-size: 13px;
+        color: #555;
+        margin-bottom: 12px;
+    }
+
+    .fin-bar-wrapper {
+        margin-top: 4px;
+    }
+
+    .fin-bar {
+        width: 100%;
+        height: 16px;
+        background-color: #e0e0e0;
+        border-radius: 999px;
+        overflow: hidden;
+    }
+
+    .fin-bar-inner {
+        height: 100%;
+        width: 50%;           /* başlangıçta orta karar bir değer */
+        background-color: #43a047;
+        border-radius: 999px;
+        transition: width 0.25s ease, background-color 0.25s ease;
+    }
+
+    .fin-bar-text {
+        margin-top: 6px;
+        font-size: 13px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .fin-bar-note {
+        margin-top: 4px;
+        font-size: 12px;
+        color: #777;
+    }
+
         @media (max-width: 900px) {
             .card-grid {
                 grid-template-columns: 1fr 1fr;

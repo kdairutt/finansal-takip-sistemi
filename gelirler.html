@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Para Uzmanı - Gelirlerim</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/gelirler.css">
+</head>
+<body>
+
+    <!-- Üst Menü (giriş sonrası) -->
+    <div class="top-bar">
+        <div class="top-bar-inner">
+            <div class="logo">
+                <a href="dashboard.html">Para Uzmanı</a>
+            </div>
+
+            <ul class="top-menu">
+                <li><a href="dashboard.html">Ana Ekran</a></li>
+                <li><a href="profil.html">Profil</a></li>
+                <li><a href="varliklar.html">Varlıklarım</a></li>
+                <li><a href="borclar.html">Borçlarım</a></li>
+                <li><a href="gelirler.html" class="active">Gelirlerim</a></li>
+                <li><a href="giderler.html">Giderlerim</a></li>
+                <li><a href="faiz.html">Faiz Hesapla</a></li>
+                <li><a href="doviz.html">Döviz &amp; Kıymetli Maden</a></li>
+                <li><a href="#" class="disabled-link">Tahmini Gelir–Gider</a></li>
+                <li><a href="index.html" class="logout-btn" onclick="cikisYap()">Çıkış Yap</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Ana İçerik -->
+    <div class="container">
+
+        <div class="page-header">
+            <h1>Gelirlerim</h1>
+            <p>
+                Bu sayfada maaş, burs ve diğer gelir kalemlerini listeleyebilirsin. 
+                Aşağıdaki formdan yeni gelir ekleyebilir, tablo üzerinden toplam aylık gelirini görebilirsin.
+            </p>
+        </div>
+
+        <!-- Özet kart: toplam gelir -->
+        <div class="summary-card">
+            <div class="summary-title">Toplam Aylık Gelir</div>
+            <div class="summary-value" id="toplam-gelir">0 TL</div>
+            <div class="summary-extra">
+                Aşağıdaki tabloya eklediğin tüm gelir kalemlerinin aylık toplam tutarı burada gösterilir.
+            </div>
+        </div>
+
+        <!-- Gelir ekleme formu -->
+        <div class="card">
+            <h2>Yeni Gelir Ekle</h2>
+            <p>Temel gelir bilgilerini girerek listeye ekleyebilirsin. Tutarları aylık bazda yazman yeterli.</p>
+
+            <div class="form-group">
+                <label for="gelir-adi">Gelir Adı</label>
+                <input type="text" id="gelir-adi" placeholder="Örn: Maaş, Burs, Freelance">
+            </div>
+
+            <div class="form-group">
+                <label for="gelir-turu">Gelir Türü</label>
+                <input type="text" id="gelir-turu" placeholder="Örn: Düzenli, Ek Gelir">
+            </div>
+
+            <div class="form-group">
+                <label for="gelir-tutar">Tutar (TL)</label>
+                <input type="number" id="gelir-tutar" placeholder="Örn: 8000">
+            </div>
+
+            <div class="form-group">
+                <label for="gelir-not">Not (isteğe bağlı)</label>
+                <input type="text" id="gelir-not" placeholder="Örn: Part-time iş, proje ödemesi vb.">
+            </div>
+
+            <button class="btn btn-primary" onclick="gelirEkle()">Gelir Ekle</button>
+        </div>
+
+        <!-- Gelirler tablosu -->
+        <div class="card">
+            <h2>Gelir Listesi</h2>
+            <p>Eklediğin gelirler aşağıdaki tabloda gösterilir. İstersen satırları silebilirsin.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Gelir Adı</th>
+                        <th>Türü</th>
+                        <th>Tutar (TL)</th>
+                        <th>Not</th>
+                        <th>İşlem</th>
+                    </tr>
+                </thead>
+                <tbody id="gelir-tablo-govde">
+                    <!-- Başlangıçta boş -->
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <!-- Basit JS -->
+    <script>
+        // Toplam aylık geliri hesapla
+        function toplamGeliriHesapla() {
+            var hucreler = document.getElementsByClassName("gelir-hucre");
+            var toplam = 0;
+
+            for (var i = 0; i < hucreler.length; i++) {
+                var deger = Number(hucreler[i].textContent);
+                if (!isNaN(deger)) toplam += deger;
+            }
+
+            document.getElementById("toplam-gelir").textContent = toplam + " TL";
+            localStorage.setItem("aylikGelir", toplam);
+        }
+
+        // Yeni gelir ekle
+        function gelirEkle() {
+            var ad = document.getElementById("gelir-adi").value;
+            var tutar = document.getElementById("gelir-tutar").value;
+            var not = document.getElementById("gelir-not").value;
+
+            if (ad == "" || tutar == "") {
+                alert("Lütfen gelir adı ve tutar alanlarını doldurun.");
+                return;
+            }
+
+            var govde = document.getElementById("gelir-tablo-govde");
+            var satir = document.createElement("tr");
+
+            satir.innerHTML = `
+                <td>${ad}</td>
+                <td class="gelir-hucre">${tutar}</td>
+                <td>${not}</td>
+                <td><button class="btn-delete" onclick="gelirSil(this)">Sil</button></td>
+            `;
+
+            govde.appendChild(satir);
+            toplamGeliriHesapla();
+
+            document.getElementById("gelir-adi").value = "";
+            document.getElementById("gelir-tutar").value = "";
+            document.getElementById("gelir-not").value = "";
+        }
+
+        // Gelir sil
+        function gelirSil(btn) {
+            if (!confirm("Bu geliri silmek istediğinize emin misiniz?")) return;
+
+            var satir = btn.parentNode.parentNode;
+            satir.parentNode.removeChild(satir);
+
+            toplamGeliriHesapla();
+        }
+
+        // Yüklenince mevcut toplamı göster
+        function toplamGeliriGoster() {
+            var kayitli = localStorage.getItem("aylikGelir");
+
+            if (kayitli !== null)
+                document.getElementById("toplam-gelir").textContent = kayitli + " TL";
+            else
+                document.getElementById("toplam-gelir").textContent = "0 TL";
+        }
+
+        window.onload = function () {
+            toplamGeliriGoster();
+        };
+    </script>
+
+</body>
+</html>

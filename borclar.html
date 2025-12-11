@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Para Uzmanı - Borçlarım</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/borclar.css">
+</head>
+<body>
+
+    <!-- Üst Menü (giriş sonrası) -->
+    <div class="top-bar">
+        <div class="top-bar-inner">
+            <div class="logo">
+                <a href="dashboard.html">Para Uzmanı</a>
+            </div>
+
+            <ul class="top-menu">
+                <li><a href="dashboard.html">Ana Ekran</a></li>
+                <li><a href="profil.html">Profil</a></li>
+                <li><a href="varliklar.html">Varlıklarım</a></li>
+                <li><a href="borclar.html" class="active">Borçlarım</a></li>
+                <li><a href="gelirler.html">Gelirlerim</a></li>
+                <li><a href="giderler.html">Giderlerim</a></li>
+                <li><a href="faiz.html">Faiz Hesapla</a></li>
+                <li><a href="doviz.html">Döviz &amp; Kıymetli Maden</a></li>
+                <li><a href="#" class="disabled-link">Tahmini Gelir–Gider</a></li>
+                <li><a href="index.html" class="logout-btn" onclick="cikisYap()">Çıkış Yap</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Ana İçerik -->
+    <div class="container">
+
+        <div class="page-header">
+            <h1>Borçlarım</h1>
+            <p>
+                Bu sayfada kredi, kredi kartı, taksit ve diğer borçlarını listeleyebilirsin. 
+                Aşağıdaki formdan yeni borç ekleyebilir, tablo üzerinden toplam borç durumunu görebilirsin.
+            </p>
+        </div>
+
+        <!-- Özet kart: toplam borç -->
+        <div class="summary-card">
+            <div class="summary-title">Toplam Borçlar</div>
+            <div class="summary-value" id="toplam-borc">0 TL</div>
+            <div class="summary-extra">
+                Aşağıdaki tabloya eklediğin tüm borçların toplam tutarı burada gösterilir.
+            </div>
+        </div>
+
+        <!-- Borç ekleme formu -->
+        <div class="card">
+            <h2>Yeni Borç Ekle</h2>
+            <p>Borç bilgilerini girerek listeye ekleyebilirsin.</p>
+
+            <div class="form-group">
+                <label for="borc-adi">Borç Adı</label>
+                <input type="text" id="borc-adi" placeholder="Örn: İhtiyaç Kredisi, Kredi Kartı, Fatura">
+            </div>
+
+            <div class="form-group">
+                <label for="borc-turu">Borç Türü</label>
+                <input type="text" id="borc-turu" placeholder="Örn: Kredi, Kredi Kartı, Fatura">
+            </div>
+
+            <div class="form-group">
+                <label for="borc-tutar">Tutar (TL)</label>
+                <input type="number" id="borc-tutar" placeholder="Örn: 7500">
+            </div>
+
+            <div class="form-group">
+                <label for="borc-vade">Vade / Son Ödeme Tarihi</label>
+                <input type="text" id="borc-vade" placeholder="Örn: 15.01.2026 veya Aylık 15’i">
+            </div>
+
+            <div class="form-group">
+                <label for="borc-not">Not (isteğe bağlı)</label>
+                <input type="text" id="borc-not" placeholder="Örn: Öğrenci kredisi, taksit 5/12 vb.">
+            </div>
+
+            <button class="btn btn-primary" onclick="borcEkle()">Borç Ekle</button>
+        </div>
+
+        <!-- Borçlar tablosu -->
+        <div class="card">
+            <h2>Borç Listesi</h2>
+            <p>Eklediğin borçlar aşağıdaki tabloda gösterilir. İstersen satırları silebilirsin.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Borç Adı</th>
+                        <th>Türü</th>
+                        <th>Tutar (TL)</th>
+                        <th>Vade / Son Ödeme</th>
+                        <th>Not</th>
+                        <th>İşlem</th>
+                    </tr>
+                </thead>
+                <tbody id="borc-tablo-govde">
+                    <!-- Başlangıçta boş, kullanıcı ekledikçe dolacak -->
+                    <tr></tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <!-- Basit JS -->
+    <script>
+                // Çıkış yap
+        function cikisYap() {
+            var cevap = confirm("Çıkış yapmak istediğinize emin misiniz?");
+            if (cevap) window.location = "index.html";
+        }
+
+        // Toplam borcu hesapla
+        function toplamBorcuHesapla() {
+            var hucreler = document.getElementsByClassName("borc-hucre");
+            var toplam = 0;
+
+            for (var i = 0; i < hucreler.length; i++) {
+                var deger = Number(hucreler[i].textContent);
+                if (!isNaN(deger)) toplam += deger;
+            }
+
+            document.getElementById("toplam-borc").textContent = toplam + " TL";
+            localStorage.setItem("toplamBorc", toplam);
+        }
+
+        // Borç ekle
+        function borcEkle() {
+            var ad = document.getElementById("borc-adi").value;
+            var tur = document.getElementById("borc-turu").value;
+            var tutar = document.getElementById("borc-tutar").value;
+            var not = document.getElementById("borc-not").value;
+
+            if (ad == "" || tur == "" || tutar == "") {
+                alert("Lütfen tüm zorunlu alanları doldurun.");
+                return;
+            }
+
+            var govde = document.getElementById("borc-tablo-govde");
+            var satir = document.createElement("tr");
+
+            satir.innerHTML = `
+                <td>${ad}</td>
+                <td>${tur}</td>
+                <td class="borc-hucre">${tutar}</td>
+                <td>${not}</td>
+                <td><button class="btn-delete" onclick="borcSil(this)">Sil</button></td>
+            `;
+
+            govde.appendChild(satir);
+            toplamBorcuHesapla();
+
+            document.getElementById("borc-adi").value = "";
+            document.getElementById("borc-turu").value = "";
+            document.getElementById("borc-tutar").value = "";
+            document.getElementById("borc-not").value = "";
+        }
+
+        // Borç sil
+        function borcSil(btn) {
+            if (!confirm("Bu borcu silmek istediğinize emin misiniz?")) return;
+
+            var satir = btn.parentNode.parentNode;
+            satir.parentNode.removeChild(satir);
+
+            toplamBorcuHesapla();
+        }
+
+        // Sayfa yüklendiğinde sadece kayıtlı toplam borcu göster
+        function toplamBorcuGoster() {
+            var kayitli = localStorage.getItem("toplamBorc");
+
+            if (kayitli !== null)
+                document.getElementById("toplam-borc").textContent = kayitli + " TL";
+            else
+                document.getElementById("toplam-borc").textContent = "0 TL";
+        }
+
+        window.onload = function () {
+            toplamBorcuGoster();
+        };
+    </script>
+
+</body>
+</html>

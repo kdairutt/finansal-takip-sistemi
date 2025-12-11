@@ -73,7 +73,25 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary">Giriş Yap</button>
+                    <script>
+                        document.querySelector("form").addEventListener("submit", function(e) {
+                            e.preventDefault(); // sayfa yenilenmesini engelle
 
+                            var kullaniciAdi = document.getElementById("login-id").value.trim();
+
+                            if (kullaniciAdi === "") {
+                                alert("Lütfen kullanıcı adınızı girin.");
+                                return;
+                            }
+
+                            // Kullanıcı adını kaydediyoruz
+                            localStorage.setItem("kullaniciAdi", kullaniciAdi);
+
+                            // Dashboard'a yönlendir
+                            window.location.href = "dashboard.html";
+                        });
+                    </script>
+                    
                     <div class="form-footer">
                         Henüz bir hesabın yok mu?
                         <a href="kayit.html">Kayıt ol.</a>

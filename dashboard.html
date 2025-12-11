@@ -34,7 +34,7 @@
     <div class="container">
 
         <div class="dashboard-header">
-            <h1>Hoş Geldin, Kullanıcı!</h1>
+            <h1 id="hosgeldinMesaji">Hoş Geldin!</h1>
             <p>
                 Aşağıda genel finansal durumunun özeti yer alıyor. Detaylı kayıt ekleme ve düzenleme için
                 üst menüdeki ilgili sayfaları kullanabilirsin.
@@ -115,6 +115,28 @@
 
     </div>
 
+
+    <!-- Finansal Durum Çubuğu -->
+    <div class="fin-panel">
+        <h2>Genel Finansal Durumun</h2>
+        <p>
+            Net varlık ve aylık net durumuna göre hesaplanan basit bir gösterge.
+            Borç ve giderlerin arttıkça çubuk sola doğru kısalır ve rengi kızarır.
+        </p>
+
+        <div class="fin-bar-wrapper">
+            <div class="fin-bar">
+                <div class="fin-bar-inner" id="fin-bar-inner"></div>
+            </div>
+            <div class="fin-bar-text" id="fin-bar-text">
+                Henüz hesaplanmadı.
+            </div>
+            <div class="fin-bar-note" id="fin-bar-note">
+                Varlıklar, borçlar ve aylık net durumuna göre otomatik güncellenir.
+            </div>
+        </div>
+    </div>
+
     <!-- Basit JavaScript -->
     <script>
         // Çıkış Yap
@@ -177,7 +199,7 @@
             var incomeElement  = document.getElementById("card-monthly-income");
             var expenseElement = document.getElementById("card-monthly-expense");
             var netMonthlyEl   = document.getElementById("card-monthly-net");
-
+            
             if (!isNaN(aylikGelir)) {
                 incomeElement.textContent = formatTL(aylikGelir);
             }
@@ -197,10 +219,76 @@
             }
         }
 
+    // Genel finansal durum çubuğunu güncelle
+    function finansalDurumBariniGuncelle() {
+        // Varlık / borç
+        var assets = Number(localStorage.getItem("toplamVarlik") || 0);
+        var debts  = Number(localStorage.getItem("toplamBorc") || 0);
+
+        // Aylık gelir / gider
+        var aylikGelir = Number(localStorage.getItem("aylikGelir") || 0);
+        var aylikGider = Number(localStorage.getItem("aylikGider") || 0);
+
+        var netVarlik = assets - debts;           // uzun vadeli güç
+        var aylikNet  = aylikGelir - aylikGider;  // o ayın performansı
+
+        // Toplam finansal "puan"
+        var toplamDurum = netVarlik + aylikNet;
+
+        // --- NORMALİZE ETME MANTIĞI ---
+        // Burada bir aralık belirliyoruz:
+        // -200.000 TL  -> %0 (bar kısacık, kıpkırmızı)
+        //  200.000 TL  -> %100 (bar full, yemyeşil)
+        var minDeger = -200000;
+        var maxDeger =  200000;
+        var oran = (toplamDurum - minDeger) / (maxDeger - minDeger);
+
+        if (oran < 0) oran = 0;
+        if (oran > 1) oran = 1;
+
+        var yuzde = Math.round(oran * 100);
+
+        var bar   = document.getElementById("fin-bar-inner");
+        var text  = document.getElementById("fin-bar-text");
+        var note  = document.getElementById("fin-bar-note");
+
+        // Çubuğun genişliği: borç/gider arttıkça toplamDurum düşer, oran küçülür, width azalır
+        bar.style.width = yuzde + "%";
+
+        // Renk: sola yaklaştıkça kırmızı, ortalarda turuncu, sağa yaklaştıkça yeşil
+        var renk;
+        var seviyeMetni;
+
+        if (yuzde <= 30) {
+            renk = "#e53935";          // kırmızı
+            seviyeMetni = "Riskli";
+        } else if (yuzde <= 60) {
+            renk = "#fb8c00";          // turuncu
+            seviyeMetni = "Dikkatli";
+        } else {
+            renk = "#43a047";          // yeşil
+            seviyeMetni = "Güvende";
+        }
+
+        bar.style.backgroundColor = renk;
+
+        text.textContent = "Genel finansal durum: " + seviyeMetni + " (" + yuzde + "%)";
+        note.textContent = 
+            "Net varlık: " + netVarlik + " TL, aylık net: " + aylikNet + 
+            " TL → Toplam: " + toplamDurum + " TL";
+    }
+
         // Sayfa açıldığında verileri yükle
         window.onload = function () {
-            dashboardVerileriniYukle();
+        dashboardVerileriniYukle();      // zaten vardı
+        finansalDurumBariniGuncelle();   // senin eklemen gereken satır
         };
+
+        // Kullanıcı adını yükle
+        var ad = localStorage.getItem("kullaniciAdi");
+        if (ad) {
+            document.getElementById("hosgeldinMesaji").textContent = "Hoş Geldin, " + ad + "!";
+        }
     </script>
 
 </body>

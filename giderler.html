@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Para Uzmanı - Giderlerim</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/giderler.css">
+</head>
+<body>
+
+    <!-- Üst Menü (giriş sonrası) -->
+    <div class="top-bar">
+        <div class="top-bar-inner">
+            <div class="logo">
+                <a href="dashboard.html">Para Uzmanı</a>
+            </div>
+
+            <ul class="top-menu">
+                <li><a href="dashboard.html">Ana Ekran</a></li>
+                <li><a href="profil.html">Profil</a></li>
+                <li><a href="varliklar.html">Varlıklarım</a></li>
+                <li><a href="borclar.html">Borçlarım</a></li>
+                <li><a href="gelirler.html">Gelirlerim</a></li>
+                <li><a href="giderler.html" class="active">Giderlerim</a></li>
+                <li><a href="faiz.html">Faiz Hesapla</a></li>
+                <li><a href="doviz.html">Döviz &amp; Kıymetli Maden</a></li>
+                <li><a href="#" class="disabled-link">Tahmini Gelir–Gider</a></li>
+                <li><a href="index.html" class="logout-btn" onclick="cikisYap()">Çıkış Yap</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Ana İçerik -->
+    <div class="container">
+
+        <div class="page-header">
+            <h1>Giderlerim</h1>
+            <p>
+                Bu sayfada kira, fatura, market, ulaşım ve diğer harcama kalemlerini listeleyebilirsin. 
+                Aşağıdaki formdan yeni gider ekleyebilir, tablo üzerinden toplam aylık giderini görebilirsin.
+            </p>
+        </div>
+
+        <!-- Özet kart: toplam gider -->
+        <div class="summary-card">
+            <div class="summary-title">Toplam Aylık Gider</div>
+            <div class="summary-value" id="toplam-gider">0 TL</div>
+            <div class="summary-extra">
+                Aşağıdaki tabloya eklediğin tüm gider kalemlerinin aylık toplam tutarı burada gösterilir.
+            </div>
+        </div>
+
+        <!-- Gider ekleme formu -->
+        <div class="card">
+            <h2>Yeni Gider Ekle</h2>
+            <p>Temel gider bilgilerini girerek listeye ekleyebilirsin. Tutarları aylık bazda yazman yeterli.</p>
+
+            <div class="form-group">
+                <label for="gider-adi">Gider Adı</label>
+                <input type="text" id="gider-adi" placeholder="Örn: Kira, Market, Ulaşım">
+            </div>
+
+            <div class="form-group">
+                <label for="gider-kategori">Kategori</label>
+                <input type="text" id="gider-kategori" placeholder="Örn: Barınma, Gıda, Ulaşım, Eğlence">
+            </div>
+
+            <div class="form-group">
+                <label for="gider-tutar">Tutar (TL)</label>
+                <input type="number" id="gider-tutar" placeholder="Örn: 3000">
+            </div>
+
+            <div class="form-group">
+                <label for="gider-not">Not (isteğe bağlı)</label>
+                <input type="text" id="gider-not" placeholder="Örn: Aidat dahil, toplu taşıma kartı vb.">
+            </div>
+
+            <button class="btn btn-primary" onclick="giderEkle()">Gider Ekle</button>
+        </div>
+
+        <!-- Giderler tablosu -->
+        <div class="card">
+            <h2>Gider Listesi</h2>
+            <p>Eklediğin giderler aşağıdaki tabloda gösterilir. İstersen satırları silebilirsin.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Gider Adı</th>
+                        <th>Kategori</th>
+                        <th>Tutar (TL)</th>
+                        <th>Not</th>
+                        <th>İşlem</th>
+                    </tr>
+                </thead>
+                <tbody id="gider-tablo-govde">
+                    <!-- Başlangıçta boş -->
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <!-- Basit JS -->
+    <script>
+        // Toplam gideri hesapla
+        function toplamGideriHesapla() {
+            var hucreler = document.getElementsByClassName("gider-hucre");
+            var toplam = 0;
+
+            for (var i = 0; i < hucreler.length; i++) {
+                var deger = Number(hucreler[i].textContent);
+                if (!isNaN(deger)) toplam += deger;
+            }
+
+            document.getElementById("toplam-gider").textContent = toplam + " TL";
+            localStorage.setItem("aylikGider", toplam);
+        }
+
+        // Yeni gider ekle
+        function giderEkle() {
+            var ad = document.getElementById("gider-adi").value;
+            var tutar = document.getElementById("gider-tutar").value;
+            var not = document.getElementById("gider-not").value;
+
+            if (ad == "" || tutar == "") {
+                alert("Lütfen gider adı ve tutar alanlarını doldurun.");
+                return;
+            }
+
+            var govde = document.getElementById("gider-tablo-govde");
+            var satir = document.createElement("tr");
+
+            satir.innerHTML = `
+                <td>${ad}</td>
+                <td class="gider-hucre">${tutar}</td>
+                <td>${not}</td>
+                <td><button class="btn-delete" onclick="giderSil(this)">Sil</button></td>
+            `;
+
+            govde.appendChild(satir);
+            toplamGideriHesapla();
+
+            document.getElementById("gider-adi").value = "";
+            document.getElementById("gider-tutar").value = "";
+            document.getElementById("gider-not").value = "";
+        }
+
+        // Gider sil
+        function giderSil(btn) {
+            if (!confirm("Bu gideri silmek istediğinize emin misiniz?")) return;
+
+            var satir = btn.parentNode.parentNode;
+            satir.parentNode.removeChild(satir);
+
+            toplamGideriHesapla();
+        }
+
+        // İlk yüklemede localStorage değerini göster
+        function toplamGideriGoster() {
+            var kayitli = localStorage.getItem("aylikGider");
+
+            if (kayitli !== null)
+                document.getElementById("toplam-gider").textContent = kayitli + " TL";
+            else
+                document.getElementById("toplam-gider").textContent = "0 TL";
+        }
+
+        window.onload = function () {
+            toplamGideriGoster();
+        };
+    </script>
+
+</body>
+</html>
